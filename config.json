@@ -1,0 +1,31 @@
+{
+  "game": {
+    "name": "게임봇",
+    "register_money": 10000,
+    "stock": [
+      "미니전자",
+      "미니택배",
+      "미니건설",
+      "미니증권",
+      "미니식품"
+    ]
+  },
+    "bot": {
+      "token": "YOUR TOKEN",
+      "prefix": "!",
+      "status": "!도움",
+      "extensions": [
+        "jishaku",
+        "src.commands.default",
+        "src.commands.user"
+      ]
+  },
+  "admin_tool": {
+    "password": "1234",
+    "host": "127.0.0.1",
+    "port": "5000"
+  },
+  "database": {
+    "path": "./database.db"
+  }
+}
