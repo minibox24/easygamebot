@@ -8,9 +8,9 @@ class GameUser:
         self.con = con
         self.cur = con.cursor()
 
-        self.money = None
-        self.join_time = None
-        self.check_time = None
+        self.money: int = None
+        self.join_time: float = None
+        self.check_time: float = None
 
         self.load()
 
@@ -44,13 +44,13 @@ class GameUser:
         data = self.cur.fetchone()
 
         if data:
-            self.money = data[1]
+            self.money = int(data[1])
             self.join_time = float(data[2])
             self.check_time = float(data[3])
 
     def commit(self):
         self.cur.execute(
-            "UPDATE user SET money=? check_time=? WHERE id=?",
+            "UPDATE user SET money=?, check_time=? WHERE id=?",
             (str(self.money), str(self.check_time), self.id),
         )
         self.con.commit()
