@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 from src.utils import colors
 from src.utils.classes import GameUser
@@ -10,6 +10,17 @@ from src.utils.decorators import require_join
 class Stock(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.stock_price_change_loop.change_interval(
+            seconds=bot.config["game"]["stock_change_time"]
+        )
+        self.stock_price_change_loop.start()
+
+    def cog_unload(self):
+        self.stock_price_change_loop.cancel()
+
+    @tasks.loop(seconds=30.0)
+    async def stock_price_change_loop(self):
+        pass
 
     @commands.group("주식")
     async def stock(self, ctx):
