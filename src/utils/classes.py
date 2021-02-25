@@ -1,5 +1,7 @@
 import sqlite3
 import time
+from typing import List, Dict
+import json
 
 
 class GameUser:
@@ -8,9 +10,10 @@ class GameUser:
         self.con = con
         self.cur = con.cursor()
 
-        self.money: int = None
-        self.join_time: float = None
-        self.check_time: float = None
+        self.money: int = 0
+        self.join_time: float = 0
+        self.check_time: float = 0
+        self.stock: Dict[str, Dict[str, int]] = {}
 
         self.load()
 
@@ -18,7 +21,7 @@ class GameUser:
     def exist_user(con: sqlite3.Connection, userid: str) -> bool:
         cur = con.cursor()
 
-        cur.execute("SELECT * FROM user WHERE id=?", (userid,))
+        cur.execute("SELECT * FROM users WHERE id=?", (userid,))
 
         if cur.fetchone():
             return True
@@ -29,28 +32,34 @@ class GameUser:
     def join(con: sqlite3.Connection, userid: str, gift: int = 10000) -> None:
         cur = con.cursor()
         cur.execute(
-            "INSERT INTO user VALUES(?, ?, ?, ?)",
-            (userid, str(gift), str(time.time()), "0.0"),
+            "INSERT INTO users VALUES (?, ?, ?, '0.0', '{}')",
+            (userid, str(gift), str(time.time())),
         )
         con.commit()
 
     def remove(self) -> None:
-        self.cur.execute("DELETE FROM user WHERE id=?", (self.id,))
+        self.cur.execute("DELETE FROM users WHERE id=?", (self.id,))
         self.con.commit()
         self.money = None
 
     def load(self) -> None:
-        self.cur.execute("SELECT * FROM user WHERE id=?", (self.id,))
+        self.cur.execute("SELECT * FROM users WHERE id=?", (self.id,))
         data = self.cur.fetchone()
 
         if data:
             self.money = int(data[1])
             self.join_time = float(data[2])
             self.check_time = float(data[3])
+            self.stock = json.loads(data[4])
 
     def commit(self):
         self.cur.execute(
-            "UPDATE user SET money=?, check_time=? WHERE id=?",
-            (str(self.money), str(self.check_time), self.id),
+            "UPDATE users SET money=?, check_time=?, stock=? WHERE id=?",
+            (
+                str(self.money),
+                str(self.check_time),
+                json.dumps(self.stock, ensure_ascii=False),
+                self.id,
+            ),
         )
         self.con.commit()
