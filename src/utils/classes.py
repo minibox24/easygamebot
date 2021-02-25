@@ -1,7 +1,9 @@
+from __future__ import annotations
+
+import json
 import sqlite3
 import time
-from typing import List, Dict
-import json
+from typing import Dict
 
 
 class GameUser:
@@ -29,13 +31,14 @@ class GameUser:
         return False
 
     @staticmethod
-    def join(con: sqlite3.Connection, userid: str, gift: int = 10000) -> None:
+    def join(con: sqlite3.Connection, userid: str, gift: int = 10000) -> GameUser:
         cur = con.cursor()
         cur.execute(
             "INSERT INTO users VALUES (?, ?, ?, '0.0', '{}')",
             (userid, str(gift), str(time.time())),
         )
         con.commit()
+        return GameUser(con, userid)
 
     def remove(self) -> None:
         self.cur.execute("DELETE FROM users WHERE id=?", (self.id,))
