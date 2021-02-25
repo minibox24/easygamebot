@@ -24,7 +24,12 @@ class User(commands.Cog):
                 )
             )
 
-        GameUser.join(self.bot.con, str(ctx.author.id))
+        user = GameUser.join(self.bot.con, str(ctx.author.id))
+
+        for i in self.bot.config["game"]["stocks"]:
+            user.stock[i] = {"shares": 0, "avg": 0}
+        user.commit()
+
         await ctx.reply(
             embed=make_text_embed(
                 ctx.author,
@@ -55,16 +60,22 @@ class User(commands.Cog):
             target = ctx.author
 
         user = GameUser(self.bot.con, str(target.id))
-        join_time = (
-            f"{seconds_to_timestr(int(time.time() - user.join_time))} 전 가입"
-            if time.time() - user.join_time < 21600
-            else f"{timestamp_to_timestr(user.join_time)} 가입"
-        )
         embed = make_text_embed(
             ctx.author,
-            f"{join_time}\n\n"
-            f"돈: {format_money(user.money, self.bot.config['game']['unit'])}",
+            f"{seconds_to_timestr(int(time.time() - user.join_time))} 전 가입"
+            if time.time() - user.join_time < 21600
+            else f"{timestamp_to_timestr(user.join_time)} 가입",
             colors.AQUA,
+        )
+
+        embed.add_field(
+            name="돈", value=format_money(user.money, self.bot.config["game"]["unit"])
+        )
+        embed.add_field(
+            name="주식",
+            value="\n".join(
+                map(lambda x: f"{x}: {user.stock[x]['shares']}주", user.stock)
+            ),
         )
         embed.set_author(name=target.name, icon_url=target.avatar_url)
         await ctx.reply(embed=embed)
