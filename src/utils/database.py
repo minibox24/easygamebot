@@ -20,7 +20,9 @@ def connect_database(path: str) -> sqlite3.Connection:
     cur.execute("SELECT COUNT(*) FROM sqlite_master WHERE name='stocks'")
     if cur.fetchone()[0] == 0:
         print("DB 셋업 (stocks)")
-        cur.execute("CREATE TABLE stocks(name text, price text, history text)")
+        cur.execute(
+            "CREATE TABLE stocks(name text, price text, trsc text, history text)"
+        )
         con.commit()
 
     return con
@@ -70,8 +72,8 @@ def init_stock(con: sqlite3.Connection, stocks: List[str], stock_default_price: 
         for i in create_stocks:
             print(f"주식 [{i}] 생성")
             cur.execute(
-                "INSERT INTO stocks VALUES (?, ?, ?)",
-                (i, str(stock_default_price), "{}"),
+                "INSERT INTO stocks VALUES (?, ?, ?, ?)",
+                (i, str(stock_default_price), "0", "{}"),
             )
 
         cur.execute("SELECT * FROM users")
