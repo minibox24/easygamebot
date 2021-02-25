@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
-from src.utils import get_config, connect_database
+from src.utils import get_config
+from src.utils.database import connect_database, init_stock
 
 
 class EasyGameBot(commands.Bot):
@@ -14,6 +15,12 @@ class EasyGameBot(commands.Bot):
     async def on_ready(self):
         self.remove_command("help")
         await self.change_presence(activity=discord.Game(self.config["bot"]["status"]))
+
+        init_stock(
+            self.con,
+            self.config["game"]["stocks"],
+            self.config["game"]["stock_default_price"],
+        )
 
         for extension in get_config()["bot"]["extensions"]:
             self.load_extension(extension)
