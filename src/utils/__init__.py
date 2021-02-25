@@ -14,7 +14,9 @@ def connect_database(path: str) -> sqlite3.Connection:
     cur = con.cursor()
     cur.execute("SELECT COUNT(*) FROM sqlite_master WHERE name='user'")
     if cur.fetchone()[0] == 0:
-        cur.execute("CREATE TABLE user(id text, money text)")
+        cur.execute(
+            "CREATE TABLE user(id text, money text, join_time text, check_time text)"
+        )
         con.commit()
 
     return con
