@@ -1,10 +1,12 @@
 import discord
 from discord.ext import commands
 
-from src.utils import colors
+from src.utils import colors, timestamp_to_timestr, seconds_to_timestr, format_money
 from src.utils.classes import GameUser
 from src.utils.embeds import make_text_embed
 from src.utils.decorators import require_join
+
+import time
 
 
 class User(commands.Cog):
@@ -53,9 +55,49 @@ class User(commands.Cog):
             target = ctx.author
 
         user = GameUser(self.bot.con, str(target.id))
-        await ctx.reply(
+        join_time = (
+            f"{seconds_to_timestr(int(time.time() - user.join_time))} 전 가입"
+            if time.time() - user.join_time < 21600
+            else f"{timestamp_to_timestr(user.join_time)} 가입"
+        )
+        embed = make_text_embed(
+            ctx.author,
+            f"{join_time}\n\n"
+            f"돈: {format_money(user.money, self.bot.config['game']['unit'])}",
+            colors.AQUA,
+        )
+        embed.set_author(name=target.name, icon_url=target.avatar_url)
+        await ctx.reply(embed=embed)
+
+    @commands.command("출석체크", aliases=["출첵", "ㅊㅊ"])
+    @require_join()
+    async def check_user(self, ctx):
+        user = GameUser(self.bot.con, str(ctx.author.id))
+
+        check_money = self.bot.config["game"]["check_money"]
+        check_time = self.bot.config["game"]["check_time"]
+        unit = self.bot.config["game"]["unit"]
+
+        if time.time() - user.check_time < check_time:
+            return await ctx.reply(
+                embed=make_text_embed(
+                    ctx.author,
+                    f"{seconds_to_timestr(check_time - int(time.time() - user.check_time))}후에 다시 출석체크가 가능합니다.",
+                    colors.RED,
+                )
+            )
+
+        user.money += check_money
+        user.check_time = time.time()
+        user.commit()
+
+        return await ctx.reply(
             embed=make_text_embed(
-                ctx.author, f"{target.name}: {user.money}원 보유 중", colors.AQUA
+                ctx.author,
+                f"출석체크 완료! {format_money(check_money, unit)}을(를) 얻었습니다.\n"
+                f"현재 돈: {format_money(user.money, unit)}\n\n"
+                f"{seconds_to_timestr(check_time)}후에 다시 출석체크가 가능합니다.",
+                colors.GREEN,
             )
         )
 
