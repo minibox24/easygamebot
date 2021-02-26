@@ -1,5 +1,5 @@
 import sqlite3
-from typing import List
+from typing import List, Dict, Union
 import json
 
 
@@ -21,7 +21,7 @@ def connect_database(path: str) -> sqlite3.Connection:
     if cur.fetchone()[0] == 0:
         print("DB 셋업 (stocks)")
         cur.execute(
-            "CREATE TABLE stocks(name text, price text, trsc text, history text)"
+            "CREATE TABLE stocks(name text, price text, cap text, history text)"
         )
         con.commit()
 
@@ -73,7 +73,7 @@ def init_stock(con: sqlite3.Connection, stocks: List[str], stock_default_price: 
             print(f"주식 [{i}] 생성")
             cur.execute(
                 "INSERT INTO stocks VALUES (?, ?, ?, ?)",
-                (i, str(stock_default_price), "0", "{}"),
+                (i, str(stock_default_price), "0", "[]"),
             )
 
         cur.execute("SELECT * FROM users")
@@ -89,3 +89,21 @@ def init_stock(con: sqlite3.Connection, stocks: List[str], stock_default_price: 
             )
 
         con.commit()
+
+
+def get_stock_info(
+    con: sqlite3.Connection, name: str
+) -> Dict[str, Union[int, List[Dict[str, Union[str, int]]]]]:
+    cur = con.cursor()
+
+    cur.execute("SELECT * FROM stocks WHERE name=?", (name,))
+    data = cur.fetchone()
+
+    if data:
+        return {
+            "price": int(data[1]),
+            "cap": int(data[2]),
+            "history": json.loads(data[3]),
+        }
+    else:
+        raise NameError(f"Not Found Stock: {name}")
