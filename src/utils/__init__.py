@@ -1,6 +1,7 @@
 from typing import Dict, Union, List
 from json import load
 from datetime import datetime
+from math import log, sqrt
 
 
 def get_config() -> Dict[str, Dict[str, Union[str, int, List[str]]]]:
@@ -40,3 +41,15 @@ def seconds_to_timestr(second: int) -> str:
 
 def format_money(money: int, unit: str) -> str:
     return f"{format(money, ',')}{unit}"
+
+
+def stock_next_price(cap: int, shares: List[int]) -> int:
+    log11 = log(1.1)
+    sq = 0
+
+    for share in shares:
+        if share < 1:
+            continue
+        sq += log(cap * share) / log11
+
+    return int(cap * (1 / (1 - (sqrt(sq) / cap))))
