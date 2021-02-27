@@ -24,10 +24,14 @@ class User(commands.Cog):
                 )
             )
 
-        user = GameUser.join(self.bot.con, str(ctx.author.id))
+        user = GameUser.join(
+            self.bot.con,
+            str(ctx.author.id),
+            gift=self.bot.config["game"]["register_money"],
+        )
 
         for i in self.bot.config["game"]["stocks"]:
-            user.stock[i] = {"shares": 0, "avg": 0}
+            user.stock[i] = []
         user.commit()
 
         await ctx.reply(
@@ -73,9 +77,7 @@ class User(commands.Cog):
         )
         embed.add_field(
             name="주식",
-            value="\n".join(
-                map(lambda x: f"{x}: {user.stock[x]['shares']}주", user.stock)
-            ),
+            value="\n".join(map(lambda x: f"{x}: {len(user.stock[x])}주", user.stock)),
         )
         embed.set_author(name=target.name, icon_url=target.avatar_url)
         await ctx.reply(embed=embed)
