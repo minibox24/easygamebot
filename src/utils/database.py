@@ -81,7 +81,7 @@ def init_stock(con: sqlite3.Connection, stocks: List[str], stock_default_price: 
         for i in cur.fetchall():
             data = json.loads(i[4])
             for j in create_stocks:
-                data[j] = {"shares": 0, "avg": 0}
+                data[j] = []
 
             cur.execute(
                 "UPDATE users SET stock=? WHERE id=?",

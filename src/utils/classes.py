@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import sqlite3
 import time
-from typing import Dict
+from typing import Dict, List
 
 
 class GameUser:
@@ -15,7 +15,7 @@ class GameUser:
         self.money: int = 0
         self.join_time: float = 0
         self.check_time: float = 0
-        self.stock: Dict[str, Dict[str, int]] = {}
+        self.stock: Dict[str, List[int]] = {}
 
         self.load()
 
