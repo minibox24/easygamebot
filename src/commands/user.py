@@ -14,7 +14,7 @@ class User(commands.Cog):
         self.bot = bot
 
     @commands.command("가입")
-    async def join_user(self, ctx):
+    async def join_user(self, ctx: commands.Context):
         if GameUser.exist_user(self.bot.con, str(ctx.author.id)):
             return await ctx.reply(
                 embed=make_text_embed(
@@ -39,7 +39,7 @@ class User(commands.Cog):
 
     @commands.command("탈퇴")
     @require_join()
-    async def remove_user(self, ctx):
+    async def remove_user(self, ctx: commands.Context):
         user = GameUser(self.bot.con, str(ctx.author.id))
         user.remove()
         await ctx.reply(
@@ -51,7 +51,7 @@ class User(commands.Cog):
         )
 
     @commands.command("정보")
-    async def info_user(self, ctx, target: discord.User = None):
+    async def info_user(self, ctx: commands.Context, target: discord.User = None):
         if not target:
             if not GameUser.exist_user(ctx.bot.con, str(ctx.author.id)):
                 return await ctx.reply(
@@ -82,7 +82,7 @@ class User(commands.Cog):
 
     @commands.command("출석체크", aliases=["출첵", "ㅊㅊ"])
     @require_join()
-    async def check_user(self, ctx):
+    async def check_user(self, ctx: commands.Context):
         user = GameUser(self.bot.con, str(ctx.author.id))
 
         check_money = self.bot.config["game"]["check_money"]

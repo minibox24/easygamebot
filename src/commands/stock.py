@@ -74,7 +74,7 @@ class Stock(commands.Cog):
         self.bot.con.commit()
 
     @commands.group("주식")
-    async def stock(self, ctx):
+    async def stock(self, ctx: commands.Context):
         if ctx.invoked_subcommand is None:
             await ctx.reply(
                 embed=make_text_embed(
@@ -88,7 +88,7 @@ class Stock(commands.Cog):
             )
 
     @stock.command("정보")
-    async def stock_info(self, ctx, name: str = None):
+    async def stock_info(self, ctx: commands.Context, name: str = None):
         data = {}
         stocks: List[str] = self.bot.config["game"]["stocks"]
 

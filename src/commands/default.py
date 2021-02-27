@@ -7,7 +7,7 @@ class Default(commands.Cog):
         self.bot = bot
 
     @commands.command("hello")
-    async def hello(self, ctx):
+    async def hello(self, ctx: commands.Context):
         await ctx.send("hello")
 
 
