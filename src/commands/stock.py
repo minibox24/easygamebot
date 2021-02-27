@@ -1,7 +1,13 @@
 import discord
 from discord.ext import commands, tasks
 
-from src.utils import colors, stock_next_price, format_money, seconds_to_timestr
+from src.utils import (
+    colors,
+    stock_next_price,
+    format_money,
+    seconds_to_timestr,
+    make_graph,
+)
 from src.utils.database import get_stock_info
 from src.utils.classes import GameUser
 from src.utils.embeds import make_text_embed
@@ -13,8 +19,6 @@ from sqlite3 import Cursor
 from json import dumps, loads
 from time import time, strftime, localtime
 from datetime import datetime
-import matplotlib.pyplot as plt
-from io import BytesIO
 
 
 class Stock(commands.Cog):
@@ -47,9 +51,13 @@ class Stock(commands.Cog):
 
             timestr = strftime("%H:%M:%S", localtime(time()))
 
+            for i in data["history"][:]:
+                if i["time"] == timestr:
+                    data["history"].remove(i)
+
             data["history"].append({"time": timestr, "price": price})
 
-            if len(data["history"]) > 50:
+            if len(data["history"]) > 100:
                 del data["history"][0]
 
             cur.execute(
@@ -87,18 +95,16 @@ class Stock(commands.Cog):
             data[stock] = get_stock_info(self.bot.con, stock)
 
         if data.get(name):
-            x = list(map(lambda o: o["time"], data[name]["history"]))
-            y = list(map(lambda o: o["price"], data[name]["history"]))
+            history = list(data[name]["history"])
 
-            plt.clf()
-            plt.figure(figsize=(16, 6))
-            ax = plt.subplot(1, 1, 1)
-            plt.plot(x, y, color="r")
-            for label in ax.xaxis.get_ticklabels():
-                label.set_rotation(45)
-            buf = BytesIO()
-            plt.savefig(buf)
-            buf.seek(0)
+            for i in range(len(history)):
+                if i % 5 != 0:
+                    history[i]["time"] = "​" * i
+
+            x = list(map(lambda o: o["time"], history))
+            y = list(map(lambda o: o["price"], history))
+
+            buf = make_graph(x, y)
 
             embed = make_text_embed(
                 ctx.author,

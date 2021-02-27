@@ -2,6 +2,9 @@ from typing import Dict, Union, List
 from json import load
 from datetime import datetime
 from math import log, sqrt
+import matplotlib.pyplot as plt
+from io import BytesIO
+from platform import system
 
 
 def get_config() -> Dict[str, Dict[str, Union[str, int, List[str]]]]:
@@ -53,3 +56,16 @@ def stock_next_price(cap: int, shares: List[int]) -> int:
         sq += log(cap * share) / log11
 
     return int(cap * (1 / (1 - (sqrt(sq) / cap))))
+
+
+def make_graph(x: List[int], y: List[int]) -> BytesIO:
+    plt.clf()
+    plt.figure(figsize=(10, 5))
+    ax = plt.subplot(1, 1, 1)
+    plt.plot(x, y, color="r")
+    for label in ax.xaxis.get_ticklabels():
+        label.set_rotation(30)
+    buf = BytesIO()
+    plt.savefig(buf)
+    buf.seek(0)
+    return buf
