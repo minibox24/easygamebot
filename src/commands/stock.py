@@ -41,8 +41,8 @@ class Stock(commands.Cog):
             data = get_stock_info(self.bot.con, stock)
 
             cap = randint(data["cap"] - 5000, data["cap"] + 5000)
-            cap = randint(100, 5000) if cap < 100 else cap  # 최소 금액
-            cap = randint(200000, 300000) if cap > 300000 else cap  # 최대금액
+            cap = randint(300, 50000) if cap < 300 else cap  # 최소 금액
+            cap = randint(450000, 500000) if cap > 500000 else cap  # 최대금액
 
             cur.execute("SELECT stock FROM users")
             price = stock_next_price(
