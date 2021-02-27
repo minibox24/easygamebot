@@ -156,6 +156,146 @@ class Stock(commands.Cog):
             )
         )
 
+    @stock.command("매수")
+    @require_join()
+    async def stock_buy(self, ctx: commands.Context, name: str, shares: int = None):
+        if shares and shares < 1:
+            return await ctx.reply(
+                embed=make_text_embed(ctx.author, "1주 이상부터 구매할수 있습니다.", colors.RED)
+            )
+
+        try:
+            data = get_stock_info(self.bot.con, name)
+        except NameError:
+            return await ctx.reply(
+                embed=make_text_embed(
+                    ctx.author, f"찾을 수 없는 주식 `{name}` 입니다.", colors.RED
+                )
+            )
+
+        user = GameUser(self.bot.con, str(ctx.author.id))
+
+        if not shares:
+            shares = user.money // data["price"]
+
+            if not shares:
+                return await ctx.reply(
+                    embed=make_text_embed(
+                        ctx.author,
+                        f"보유하고 있는 돈으로는 `{name}` 의 주식을 1주도 구매할 수 없습니다.",
+                        colors.RED,
+                    )
+                )
+
+        price = data["price"] * shares
+        unit = self.bot.config["game"]["unit"]
+
+        if user.money < price:
+            more = format_money(price - user.money, unit)
+            return await ctx.reply(
+                embed=make_text_embed(
+                    ctx.author,
+                    f"`{name}` 의 주식을 {shares}주 구매하려면 {more}이(가) 더 필요합니다.",
+                    colors.RED,
+                )
+            )
+
+        buy, message = await one_more_check(
+            ctx, f"`{name}` 의 주식 {shares}주를 {format_money(price, unit)}으로 구매할까요?"
+        )
+
+        if not buy:
+            return await message.edit(
+                embed=make_text_embed(
+                    ctx.author,
+                    "구매를 취소했습니다.",
+                    colors.ORANGE,
+                )
+            )
+
+        user.money -= price
+        for i in range(shares):
+            user.stock[name].append(data["price"])
+        user.commit()
+
+        return await message.edit(
+            embed=make_text_embed(
+                ctx.author,
+                f"`{name}` 의 주식을 {format_money(price, unit)}으로 {shares}주 구매했습니다.\n"
+                f"현재 보유 금액: {format_money(user.money, unit)}",
+            )
+        )
+
+    @stock.command("매도")
+    @require_join()
+    async def stock_sell(self, ctx: commands.Context, name: str, shares: int = None):
+        if shares and shares < 1:
+            return await ctx.reply(
+                embed=make_text_embed(ctx.author, "1주 이상부터 판매할수 있습니다.", colors.RED)
+            )
+
+        try:
+            data = get_stock_info(self.bot.con, name)
+        except NameError:
+            return await ctx.reply(
+                embed=make_text_embed(
+                    ctx.author, f"찾을 수 없는 주식 `{name}` 입니다.", colors.RED
+                )
+            )
+
+        user = GameUser(self.bot.con, str(ctx.author.id))
+
+        if not shares:
+            shares = len(user.stock[name])
+
+            if not shares:
+                return await ctx.reply(
+                    embed=make_text_embed(
+                        ctx.author,
+                        f"보유하고 있는 `{name}` 의 주식이 없습니다.",
+                        colors.RED,
+                    )
+                )
+
+        price = data["price"] * shares
+        unit = self.bot.config["game"]["unit"]
+
+        if len(user.stock[name]) < shares:
+            more = shares - len(user.stock[name])
+            return await ctx.reply(
+                embed=make_text_embed(
+                    ctx.author,
+                    f"`{name}` 의 주식을 {shares}주 판매하려면 {more}주가 더 필요합니다.",
+                    colors.RED,
+                )
+            )
+
+        buy, message = await one_more_check(
+            ctx, f"`{name}` 의 주식 {shares}주를 {format_money(price, unit)}으로 판매할까요?"
+        )
+
+        if not buy:
+            return await message.edit(
+                embed=make_text_embed(
+                    ctx.author,
+                    "판매를 취소했습니다.",
+                    colors.ORANGE,
+                )
+            )
+
+        user.money += price
+        for i in range(shares):
+            del user.stock[name][0]
+        user.commit()
+
+        return await message.edit(
+            embed=make_text_embed(
+                ctx.author,
+                f"`{name}` 의 주식을 {shares}주 판매해 {format_money(price, unit)}을(를) 얻었습니다.\n"
+                f"현재 보유 금액: {format_money(user.money, unit)}",
+            )
+        )
+
 
 def setup(bot):
     bot.add_cog(Stock(bot))
