@@ -98,18 +98,28 @@ class Stock(commands.Cog):
         if data.get(name):
             history = list(data[name]["history"])
 
-            for i in range(len(history)):
-                if i % 5 != 0:
-                    history[i]["time"] = "​" * i
+            if len(history) > 20:
+                for i in range(len(history)):
+                    if i % 5 != 0:
+                        history[i]["time"] = "​" * i
 
             x = list(map(lambda o: o["time"], history))
             y = list(map(lambda o: o["price"], history))
 
             buf = make_graph(x, y)
+            palstr = ""
+            unit = self.bot.config["game"]["unit"]
+
+            if GameUser.exist_user(self.bot.con, str(ctx.author.id)):
+                user = GameUser(self.bot.con, str(ctx.author.id))
+                avg = sum(user.stock[name]) / len(user.stock[name])
+                pal = int(data[name]["price"] - avg)
+                palstr = f"손익 (평균): {format_money(pal, unit)}"
 
             embed = make_text_embed(
                 ctx.author,
-                format_money(data[name]["price"], self.bot.config["game"]["unit"]),
+                f"주가: {format_money(data[name]['price'], unit)}\n{palstr}",
+                title=name,
             )
             embed.set_image(url="attachment://graph.png")
 
@@ -129,10 +139,14 @@ class Stock(commands.Cog):
 
         for i in data:
             price = data[i]["price"]
-            status = data[i]["history"][-2]["price"] < data[i]["price"]
-            chart.append(
-                f"{'+' if status else '-'} {i} {format_money(price, unit)} ( {'▲' if status else '▼'} {abs(data[i]['price'] - data[i]['history'][-2]['price'])} )"
-            )
+            if len(data[i]["history"]) >= 2:
+                status = data[i]["history"][-2]["price"] < data[i]["price"]
+                value = abs(data[i]["price"] - data[i]["history"][-2]["price"])
+                chart.append(
+                    f"{'+' if status else '-'} {i} {format_money(price, unit)} ( {'▲' if status else '▼'} {value} )"
+                )
+            else:
+                chart.append(f"? {i} {format_money(price, unit)}")
 
         chart = "\n".join(chart)
         await ctx.reply(
