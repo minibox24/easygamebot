@@ -2,8 +2,8 @@
   "game": {
     "name": "게임봇",
     "unit": "원",
-    "register_money": 10000,
-    "check_money": 5000,
+    "register_money": 50000,
+    "check_money": 15000,
     "check_time": 86400,
     "stocks": [
       "미니전자",
