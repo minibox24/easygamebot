@@ -1,10 +1,16 @@
-from typing import Dict, Union, List
+import asyncio
+from typing import Dict, Union, List, Tuple
+import discord
+from discord.ext import commands
+
 from json import load
 from datetime import datetime
 from math import log, sqrt
 import matplotlib.pyplot as plt
 from io import BytesIO
-from platform import system
+
+from src.utils import colors
+from src.utils.embeds import make_text_embed
 
 
 def get_config() -> Dict[str, Dict[str, Union[str, int, List[str]]]]:
@@ -65,8 +71,9 @@ def make_graph(x: List[int], y: List[int]) -> BytesIO:
     plt.figure(figsize=(10, 5))
     ax = plt.subplot(1, 1, 1)
     plt.plot(x, y, color="r")
-    for label in ax.xaxis.get_ticklabels():
-        label.set_rotation(30)
+    if len(list(filter(lambda o: "​" not in o, x))) >= 10:
+        for label in ax.xaxis.get_ticklabels():
+            label.set_rotation(30)
     buf = BytesIO()
     plt.savefig(buf)
     buf.seek(0)
