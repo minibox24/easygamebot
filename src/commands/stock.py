@@ -123,16 +123,21 @@ class Stock(commands.Cog):
             ).seconds
         )
 
+        unit = self.bot.config["game"]["unit"]
+        chart = []
+
+        for i in data:
+            price = data[i]["price"]
+            status = data[i]["history"][-2]["price"] < data[i]["price"]
+            chart.append(
+                f"{'+' if status else '-'} {i} {format_money(price, unit)} ( {'▲' if status else '▼'} {abs(data[i]['price'] - data[i]['history'][-2]['price'])} )"
+            )
+
+        chart = "\n".join(chart)
         await ctx.reply(
             embed=make_text_embed(
                 ctx.author,
-                "\n".join(
-                    map(
-                        lambda x: f"{x}: {format_money(data[x]['price'], self.bot.config['game']['unit'])}",
-                        data,
-                    )
-                )
-                + f"\n\n{next_time} 후 가격 변동",
+                f"**주식 차트**\n```diff\n{chart}\n```\n`{next_time} 후 가격 변동`",
             )
         )
 
