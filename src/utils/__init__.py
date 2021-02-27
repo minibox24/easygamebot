@@ -31,15 +31,17 @@ def seconds_to_timestr(second: int) -> str:
         m = second // 60
         second -= m * 60
 
-    timetuple = []
+    timelist = []
     if h != 0:
-        timetuple.append(f"{h}시간")
+        timelist.append(f"{h}시간")
     if m != 0:
-        timetuple.append(f"{m}분")
+        timelist.append(f"{m}분")
     if second != 0:
-        timetuple.append(f"{second}초")
+        timelist.append(f"{second}초")
+    if h == 0 and m == 0 and second == 0:
+        return "0초"
 
-    return " ".join(timetuple)
+    return " ".join(timelist)
 
 
 def format_money(money: int, unit: str) -> str:
