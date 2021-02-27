@@ -71,3 +71,24 @@ def make_graph(x: List[int], y: List[int]) -> BytesIO:
     plt.savefig(buf)
     buf.seek(0)
     return buf
+
+
+async def one_more_check(
+    ctx: commands.Context, text: str
+) -> Tuple[bool, discord.Message]:
+    message: discord.Message = await ctx.reply(
+        embed=make_text_embed(ctx.author, text, colors.AQUA)
+    )
+
+    await message.add_reaction("✅")
+    await message.add_reaction("❎")
+
+    try:
+        reaction, _ = await ctx.bot.wait_for(
+            "reaction_add",
+            check=lambda r, u: r.message.id == message.id and u == ctx.author,
+            timeout=60.0,
+        )
+        return reaction.emoji == "✅", message
+    except asyncio.TimeoutError:
+        return False, message
