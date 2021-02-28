@@ -1,5 +1,5 @@
 import asyncio
-from typing import Dict, Union, List, Tuple
+from typing import Dict, List, Tuple, Any
 import discord
 from discord.ext import commands
 
@@ -13,7 +13,7 @@ from src.utils import colors
 from src.utils.embeds import make_text_embed
 
 
-def get_config() -> Dict[str, Dict[str, Union[str, int, List[str]]]]:
+def get_config() -> Dict[str, Any]:
     with open("./config.json", encoding="utf-8") as f:
         return load(f)
 
