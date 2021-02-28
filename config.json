@@ -39,8 +39,10 @@
         "jishaku",
         "src.commands.default",
         "src.commands.user",
-        "src.commands.stock"
-      ]
+        "src.commands.stock",
+        "src.commands.game"
+      ],
+      "reply_mention": false
   },
   "admin_tool": {
     "password": "1234",
