@@ -15,6 +15,9 @@ class EasyGameBot(commands.Bot):
     async def on_ready(self):
         self.remove_command("help")
         await self.change_presence(activity=discord.Game(self.config["bot"]["status"]))
+        self.allowed_mentions = discord.AllowedMentions(
+            replied_user=self.config["bot"]["reply_mention"]
+        )
 
         init_stock(
             self.con,
