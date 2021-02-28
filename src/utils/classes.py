@@ -3,7 +3,11 @@ from __future__ import annotations
 import json
 import sqlite3
 import time
-from typing import Dict, List
+from dataclasses import dataclass
+
+from typing import Dict, List, Union, Optional
+
+from src.utils import get_config
 
 
 class GameUser:
@@ -66,3 +70,56 @@ class GameUser:
             ),
         )
         self.con.commit()
+
+
+@dataclass
+class Item:
+    id: int
+    name: str
+    description: str
+    price: int
+    effect: str
+
+    @staticmethod
+    def get(query: Union[int, str]) -> Optional[Item]:
+        if isinstance(query, int):
+            search: List[Item] = list(filter(lambda x: x.id == int(query), Items))
+            if len(search) > 0:
+                return search[0]
+        elif isinstance(query, str):
+            search: List[Item] = list(filter(lambda x: x.name == str(query), Items))
+            if len(search) > 0:
+                return search[0]
+        else:
+            raise TypeError
+        return
+
+    @staticmethod
+    def to_flag(items: List[Item]) -> int:
+        flag: int = 0
+        for item in items:
+            flag = flag >> item.id
+        return flag
+
+    @staticmethod
+    def to_list(flag: int) -> List[Item]:
+        items: List[Item] = []
+        for item in Items:
+            if 1 << item.id & flag:
+                items.append(item)
+        return items
+
+
+Items: List[Item] = []
+
+config = get_config()
+for i in config["game"]["items"]:
+    Items.append(
+        Item(
+            config["game"]["items"].index(i),
+            i.get("name"),
+            i.get("description"),
+            i.get("price"),
+            i.get("effect"),
+        )
+    )
