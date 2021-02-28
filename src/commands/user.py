@@ -30,7 +30,7 @@ class User(commands.Cog):
             gift=self.bot.config["game"]["register_money"],
         )
 
-        for i in self.bot.config["game"]["stocks"]:
+        for i in self.bot.config["game"]["stock"]["stocks"]:
             user.stock[i] = []
         user.commit()
 

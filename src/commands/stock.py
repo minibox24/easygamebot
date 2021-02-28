@@ -26,7 +26,7 @@ class Stock(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.stock_change_loop.change_interval(
-            seconds=bot.config["game"]["stock_change_time"]
+            seconds=bot.config["game"]["stock"]["stock_change_time"]
         )
         self.stock_change_loop.start()
 
@@ -36,7 +36,7 @@ class Stock(commands.Cog):
     @tasks.loop(seconds=30.0)
     async def stock_change_loop(self):
         cur: Cursor = self.bot.con.cursor()
-        stocks: List[str] = self.bot.config["game"]["stocks"]
+        stocks: List[str] = self.bot.config["game"]["stock"]["stocks"]
 
         for stock in stocks:
             data = get_stock_info(self.bot.con, stock)
@@ -90,7 +90,7 @@ class Stock(commands.Cog):
     @stock.command("정보")
     async def stock_info(self, ctx: commands.Context, name: str = None):
         data = {}
-        stocks: List[str] = self.bot.config["game"]["stocks"]
+        stocks: List[str] = self.bot.config["game"]["stock"]["stocks"]
 
         for stock in stocks:
             data[stock] = get_stock_info(self.bot.con, stock)

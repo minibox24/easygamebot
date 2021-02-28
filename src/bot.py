@@ -18,8 +18,8 @@ class EasyGameBot(commands.Bot):
 
         init_stock(
             self.con,
-            self.config["game"]["stocks"],
-            self.config["game"]["stock_default_price"],
+            self.config["game"]["stock"]["stocks"],
+            self.config["game"]["stock"]["stock_default_price"],
         )
 
         for extension in get_config()["bot"]["extensions"]:

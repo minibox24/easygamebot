@@ -5,20 +5,22 @@
     "register_money": 50000,
     "check_money": 15000,
     "check_time": 86400,
-    "stocks": [
-      "미니전자",
-      "미니택배",
-      "미니건설",
-      "미니증권",
-      "미니식품",
-      "미니생명",
-      "미니화재",
-      "미니카드",
-      "미니물산",
-      "미니항공"
-    ],
-    "stock_default_price": 5000,
-    "stock_change_time": 30
+    "stock": {
+      "stocks": [
+        "미니전자",
+        "미니택배",
+        "미니건설",
+        "미니증권",
+        "미니식품",
+        "미니생명",
+        "미니화재",
+        "미니카드",
+        "미니물산",
+        "미니항공"
+      ],
+      "stock_default_price": 5000,
+      "stock_change_time": 30
+    }
   },
     "bot": {
       "token": "YOUR TOKEN",
