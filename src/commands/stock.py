@@ -107,18 +107,24 @@ class Stock(commands.Cog):
             y = list(map(lambda o: o["price"], history))
 
             buf = make_graph(x, y)
-            palstr = ""
+            dynamic = ""
             unit = self.bot.config["game"]["unit"]
+            price = data[name]["price"]
 
             if GameUser.exist_user(self.bot.con, str(ctx.author.id)):
                 user = GameUser(self.bot.con, str(ctx.author.id))
-                avg = sum(user.stock[name]) / len(user.stock[name])
-                pal = int(data[name]["price"] - avg)
-                palstr = f"손익 (평균): {format_money(pal, unit)}"
+                shares = len(user.stock[name])
+                if shares != 0:
+                    avg = sum(user.stock[name]) / shares
+                    pal = int(price - avg)
+                    times = round(price / avg, 2)
+                    dynamic = f"{shares}주 보유 중\n"
+                    dynamic += f"손익: {format_money(pal, unit)} ( {times}x )\n"
+                    dynamic += f"가진 {shares}주를 전부 팔면 {format_money(shares * price, unit)}을(를) 얻습니다"
 
             embed = make_text_embed(
                 ctx.author,
-                f"주가: {format_money(data[name]['price'], unit)}\n{palstr}",
+                f"**주가: {format_money(price, unit)}**\n{dynamic}",
                 title=name,
             )
             embed.set_image(url="attachment://graph.png")
