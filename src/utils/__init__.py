@@ -99,3 +99,15 @@ async def one_more_check(
         return reaction.emoji == "✅", message
     except asyncio.TimeoutError:
         return False, message
+
+
+async def emoji_check(emoji: str, ctx: commands.Context) -> bool:
+    try:
+        reaction, _ = await ctx.bot.wait_for(
+            "reaction_add",
+            check=lambda r, u: r.message.id == ctx.message.id and u == ctx.author,
+            timeout=60.0,
+        )
+        return reaction.emoji == emoji
+    except asyncio.TimeoutError:
+        return False
