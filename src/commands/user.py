@@ -73,11 +73,14 @@ class User(commands.Cog):
         )
 
         embed.add_field(
-            name="돈", value=format_money(user.money, self.bot.config["game"]["unit"])
+            name="돈",
+            value=format_money(user.money, self.bot.config["game"]["unit"]),
+            inline=False,
         )
         embed.add_field(
             name="주식",
             value="\n".join(map(lambda x: f"{x}: {len(user.stock[x])}주", user.stock)),
+            inline=False,
         )
         embed.set_author(name=target.name, icon_url=target.avatar_url)
         await ctx.reply(embed=embed)
