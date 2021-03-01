@@ -72,6 +72,8 @@ class User(commands.Cog):
             colors.AQUA,
         )
 
+        itemsstr = "\n".join(map(lambda item: item.name, user.items))
+
         embed.add_field(
             name="돈",
             value=format_money(user.money, self.bot.config["game"]["unit"]),
@@ -80,6 +82,11 @@ class User(commands.Cog):
         embed.add_field(
             name="주식",
             value="\n".join(map(lambda x: f"{x}: {len(user.stock[x])}주", user.stock)),
+            inline=False,
+        )
+        embed.add_field(
+            name="아이템",
+            value=itemsstr if itemsstr else "보유 중인 아이템이 없습니다.",
             inline=False,
         )
         embed.set_author(name=target.name, icon_url=target.avatar_url)
