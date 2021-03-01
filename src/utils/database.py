@@ -12,8 +12,8 @@ def connect_database(path: str) -> sqlite3.Connection:
         print("DB 셋업 (users)")
         cur.execute(
             "CREATE TABLE users ("
-            "id text, money text, join_time text,"
-            "items integer, check_time text, stock text)"
+            "id text, money text, items integer,"
+            "join_time text, check_time text, stock text)"
         )
         con.commit()
 
