@@ -39,7 +39,7 @@ class Default(commands.Cog):
                 print(errstr)
 
                 if len(errstr) > 512:
-                    errstr = "...\n\n" + errstr[:512]
+                    errstr = "...\n\n" + errstr[512:]
 
                 await ctx.reply(
                     embed=make_text_embed(
