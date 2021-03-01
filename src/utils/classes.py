@@ -17,6 +17,7 @@ class GameUser:
         self.cur = con.cursor()
 
         self.money: int = 0
+        self.items: List[Item] = []
         self.join_time: float = 0
         self.check_time: float = 0
         self.stock: Dict[str, List[int]] = {}
@@ -55,15 +56,17 @@ class GameUser:
 
         if data:
             self.money = int(data[1])
-            self.join_time = float(data[2])
-            self.check_time = float(data[3])
-            self.stock = json.loads(data[4])
+            self.items = Item.to_list(data[2])
+            self.join_time = float(data[3])
+            self.check_time = float(data[4])
+            self.stock = json.loads(data[5])
 
     def commit(self):
         self.cur.execute(
             "UPDATE users SET money=?, check_time=?, stock=? WHERE id=?",
             (
                 str(self.money),
+                Item.to_flag(self.items),
                 str(self.check_time),
                 json.dumps(self.stock, ensure_ascii=False),
                 self.id,
