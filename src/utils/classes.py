@@ -39,7 +39,7 @@ class GameUser:
     def join(con: sqlite3.Connection, userid: str, gift: int = 10000) -> GameUser:
         cur = con.cursor()
         cur.execute(
-            "INSERT INTO users VALUES (?, ?, ?, '0.0', '{}')",
+            "INSERT INTO users VALUES (?, ?, 0, ?, '0.0', '{}')",
             (userid, str(gift), str(time.time())),
         )
         con.commit()
@@ -63,7 +63,7 @@ class GameUser:
 
     def commit(self):
         self.cur.execute(
-            "UPDATE users SET money=?, check_time=?, stock=? WHERE id=?",
+            "UPDATE users SET money=?, items=?, check_time=?, stock=? WHERE id=?",
             (
                 str(self.money),
                 Item.to_flag(self.items),
