@@ -23,7 +23,7 @@
       "stock_change_time": 30
     },
     "items": [
-      {"name": "니트로 클래식", "description": "일의 쿨타임이 3초가 됩니다.", "price": 250000, "effect": "work-speed@2.5"},
+      {"name": "니트로 클래식", "description": "일의 쿨타임이 3초가 됩니다.", "price": 250000, "effect": "work-speed@3"},
       {"name": "니트로", "description": "일의 쿨타임이 1초가 됩니다. (니트로 클래식 효과 무시)", "price": 500000, "effect": "work-speed@1"},
       {"name": "workPowerItem", "description": "일을 해서 버는 돈이 2배가 됩니다.", "price": 500000, "effect": "work-power@2"},
       {"name": "workPowerItem2", "description": "일을 해서 버는 돈이 5배가 됩니다. (workPowerItem 효과 무시)", "price": 500000, "effect": "work-power@5"},
