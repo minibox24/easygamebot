@@ -105,5 +105,4 @@ def get_stock_info(
             "cap": int(data[2]),
             "history": json.loads(data[3]),
         }
-    else:
-        raise NameError(f"Not Found Stock: {name}")
+    raise NameError(f"Not Found Stock: {name}")
