@@ -9,8 +9,7 @@ def require_join():
     async def predicate(ctx):
         if GameUser.exist_user(ctx.bot.con, str(ctx.author.id)):
             return True
-        else:
-            await ctx.reply(embed=make_text_embed(ctx.author, "가입이 필요한 커맨드입니다.", RED))
-            return False
+        await ctx.reply(embed=make_text_embed(ctx.author, "가입이 필요한 커맨드입니다.", RED))
+        return False
 
     return commands.check(predicate)
