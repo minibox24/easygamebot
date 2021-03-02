@@ -99,7 +99,7 @@ class Stock(commands.Cog):
             history = list(data[name]["history"])
 
             if len(history) > 20:
-                for i in range(len(history)):
+                for i, _ in enumerate(history):
                     if i % 5 != 0:
                         history[i]["time"] = "​" * i
 
