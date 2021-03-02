@@ -47,7 +47,7 @@ class Stock(commands.Cog):
 
             cur.execute("SELECT stock FROM users")
             price = stock_next_price(
-                cap, list(map(lambda x: len(loads(x[0])[stock]), cur.fetchall()))
+                cap, list(map(lambda x, n=stock: len(loads(x[0])[n]), cur.fetchall()))
             )
 
             timestr = strftime("%H:%M:%S", localtime(time()))
