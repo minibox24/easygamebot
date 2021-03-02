@@ -5,6 +5,7 @@
     "register_money": 50000,
     "check_money": 15000,
     "check_time": 86400,
+    "work_money": "500-2500",
     "stock": {
       "stocks": [
         "미니전자",
