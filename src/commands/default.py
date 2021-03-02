@@ -13,10 +13,7 @@ class Default(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx: commands.Context, err: Exception):
-        ignored = (commands.CommandNotFound,)
-        if isinstance(err, ignored):
-            return
-        elif isinstance(err, commands.CheckFailure):
+        if isinstance(err, commands.CheckFailure):
             await ctx.message.add_reaction("⛔")
             if await emoji_check("⛔", ctx):
                 await ctx.reply(embed=make_text_embed(ctx.author, "권한이 부족합니다.", RED))
