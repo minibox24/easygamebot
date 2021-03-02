@@ -81,7 +81,7 @@ class Item:
     name: str
     description: str
     price: int
-    effect: str
+    effect: ItemEffect
 
     @staticmethod
     def get(query: Union[int, str]) -> Optional[Item]:
@@ -101,7 +101,7 @@ class Item:
     def to_flag(items: List[Item]) -> int:
         flag: int = 0
         for item in items:
-            flag = flag >> item.id
+            flag += 1 << item.id
         return flag
 
     @staticmethod
@@ -111,6 +111,24 @@ class Item:
             if 1 << item.id & flag:
                 items.append(item)
         return items
+
+
+class ItemEffect:
+    def __init__(self, effect_raw: Optional[str]) -> None:
+        self.raw: Optional[str] = effect_raw
+
+        self.name: Optional[str] = None
+        self.effect: Optional[float] = None
+        self.use_remove: Optional[bool] = None
+
+        if self.raw:
+            name, effect = effect_raw.split("@")
+            self.name = name.replace("!", "")
+            self.effect = float(effect)
+            self.use_remove = name.startswith("!")
+
+    def __str__(self) -> str:
+        return str(self.raw)
 
 
 Items: List[Item] = []
@@ -123,6 +141,6 @@ for i in config["game"]["items"]:
             i.get("name"),
             i.get("description"),
             i.get("price"),
-            i.get("effect"),
+            ItemEffect(i.get("effect")),
         )
     )
