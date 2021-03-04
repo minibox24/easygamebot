@@ -22,4 +22,5 @@ jobs:
         git checkout -b build
         git add .
         git commit -m "Build"
-        git push origin build
+        git remote set-url --push origin build https://minibox24:$GITHUB_TOKEN@github.com/easygamebot
+        
