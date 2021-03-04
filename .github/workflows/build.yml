@@ -24,4 +24,4 @@ jobs:
         git checkout -b build
         git add .
         git commit -m "Build"
-        git push origin build
+        git push --force origin build
