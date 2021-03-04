@@ -10,6 +10,10 @@ class EasyGameBot(commands.Bot):
         intents = discord.Intents.all()
         super().__init__(command_prefix=config["bot"]["prefix"], intents=intents)
         self.config = config
+
+        for extension in get_config()["bot"]["extensions"]:
+            self.load_extension(extension)
+
         self.con = connect_database(self.config["database"]["path"])
 
     async def on_ready(self):
@@ -25,8 +29,6 @@ class EasyGameBot(commands.Bot):
             self.config["game"]["stock"]["stock_default_price"],
         )
 
-        for extension in get_config()["bot"]["extensions"]:
-            self.load_extension(extension)
         print("준비 완료!")
 
     async def on_message(self, message):
