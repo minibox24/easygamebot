@@ -11,20 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        token: ${{secrets.PAT}}
-    - name: Build
-      run: |
+    - uses: actions/checkout@master
+    - run: |
         cd webdev
         npm install
         npm run build
         cd ..
         rm -rf webdev
         sed -i '$d' .gitignore
+        git config --global user.name 'Minibox'
+        git config --global user.email 'minibox724@gmail.com'
         git checkout -b build
         git add .
         git commit -m "Build"
         git push origin build
-    
