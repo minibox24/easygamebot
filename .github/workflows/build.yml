@@ -1,0 +1,24 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - run: cd webdev
+    - run: npm install
+    - run: npm run build
+    - run: cd ..
+    - run: rm -rf webdev
+    - run: sed -i '$d' .gitignore
+    - run: git checkout -b build
+    - run: git add .
+    - run: git commit -m "Build"
+    - run: git push origin build
