@@ -41,7 +41,8 @@
         "src.commands.default",
         "src.commands.user",
         "src.commands.stock",
-        "src.commands.game"
+        "src.commands.game",
+        "src.commands.store"
       ],
       "reply_mention": false
   },
