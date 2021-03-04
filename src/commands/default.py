@@ -13,6 +13,8 @@ class Default(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx: commands.Context, err: Exception):
+        ignores = (commands.CommandNotFound,)
+
         if isinstance(err, commands.CheckFailure):
             await ctx.message.add_reaction("⛔")
             if await emoji_check("⛔", ctx):
@@ -28,6 +30,9 @@ class Default(commands.Cog):
                     )
                 )
         else:
+            if isinstance(err, ignores):
+                return
+
             await ctx.message.add_reaction("⚠")
             if await emoji_check("⚠", ctx):
                 tb = traceback.format_exception(type(err), err, err.__traceback__)
