@@ -18,7 +18,7 @@ jobs:
         npm run build
         cd ..
         rm -rf webdev .github
-        rm README.md LICENSE.gitignore
+        rm README.md LICENSE .gitignore
         git config --global user.name 'Minibox'
         git config --global user.email 'minibox724@gmail.com'
         git checkout -b build
