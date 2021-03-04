@@ -11,8 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
-    - run: |
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        token: ${{secrets.PAT}}
+    - name: Build
+      run: |
         cd webdev
         npm install
         npm run build
@@ -22,7 +26,5 @@ jobs:
         git checkout -b build
         git add .
         git commit -m "Build"
-        git remote set-url --push origin build https://minibox24:$GITHUB_TOKEN@github.com/easygamebot
-        
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        git push origin build
+    
