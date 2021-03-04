@@ -11,5 +11,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Moving build to artifacts directory
-        run: ls -a
+    - uses: actions/checkout@master
+    - run: ls -a
