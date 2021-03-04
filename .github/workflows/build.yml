@@ -24,3 +24,5 @@ jobs:
         git commit -m "Build"
         git remote set-url --push origin build https://minibox24:$GITHUB_TOKEN@github.com/easygamebot
         
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
