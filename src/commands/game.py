@@ -60,7 +60,7 @@ class Game(commands.Cog):
         await ctx.reply(
             embed=make_text_embed(
                 ctx.author,
-                f"당신을 일을 해서 {format_money(add, self.bot.config['game']['unit'])}을(를) 얻었습니다."
+                f"당신은 일을 해서 {format_money(add, self.bot.config['game']['unit'])}을(를) 얻었습니다."
                 f"\n다음 일은 {seconds_to_timestr(cooltime)}후에 가능합니다.",
             )
         )
