@@ -1,0 +1,15 @@
+name: Test
+
+on:
+  push:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Moving build to artifacts directory
+        run: ls -a
