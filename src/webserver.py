@@ -8,5 +8,6 @@ app.static("/favicon.ico", "src/web/favicon.ico")
 
 
 @app.route("/")
-async def main(req):
+@app.route("/<path:path>")
+async def main(req, path=None):
     return response.html(open("src/web/index.html").read())
