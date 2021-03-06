@@ -20,6 +20,11 @@ try:
 except ImportError:
     subprocess.call(f"{PYPATH} -m pip install keyboard", shell=False)
     import keyboard
+try:
+    import click
+except ImportError:
+    subprocess.call(f"{PYPATH} -m pip install click", shell=False)
+    import click
 
 # ================================================================================== #
 # util functions #
@@ -45,36 +50,27 @@ def isatty(stream):
         return False
 
 
-def clear_shell():
-    if not isatty(sys.stdout):
-        return
-    if WIN:
-        subprocess.call("cls", shell=True)
-    else:
-        sys.stdout.write("\033[2J\033[1;1H")
-
-
 def case(choice: str):
     if choice == "1. 종료":
         exit()
     elif choice == "2. 서버 실행":
-        clear_shell()
+        click.clear()
         print("서버를 실행합니다....")
         subprocess.call(f"{PYPATH} run.py", shell=False)
     elif choice == "3. 모듈 설치":
-        clear_shell()
+        click.clear()
         print("모듈을 설치합니다.....")
         subprocess.call(f"{PYPATH} -m pip install -r requirements.txt", shell=False)
-        clear_shell()
+        click.clear()
         select_interface()
     elif choice == "4. 설정 보기":
-        clear_shell()
+        click.clear()
         settings()
         keyboard.wait("enter")
-        clear_shell()
+        click.clear()
         select_interface()
     else:
-        clear_shell()
+        click.clear()
         select_interface()
 
 
@@ -110,5 +106,5 @@ def settings():
 
 # ================================================================================== #
 
-clear_shell()
+click.clear()
 select_interface()
