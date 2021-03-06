@@ -55,6 +55,12 @@ export default {
 }
 
 #view::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 10px 10px #3A5169;
+  border-radius: 10px;
+  border: solid 3px transparent;
+}
+
+#view::-webkit-scrollbar-thumb:hover {
   box-shadow: inset 0 0 10px 10px #5B7F91;
   border-radius: 10px;
   border: solid 3px transparent;
