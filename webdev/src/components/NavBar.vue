@@ -53,7 +53,6 @@ export default {
 <style>
 #nav {
   display: flex;
-  height: 100vh;
   background: #1D2936;
   color: white;
   z-index: 10;

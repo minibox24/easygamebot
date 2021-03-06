@@ -2,24 +2,27 @@
   <div id="app">
     <div id="content">
       <NavBar/>
-      <div style="display: flex; flex: 1; flex-direction: column; height: 100vh;">
+      <div style="display: flex; flex: 1; flex-direction: column; height: calc(100vh - 28px);">
         <Title/>
         <div id="view">
           <router-view/>
         </div>
       </div>
     </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/NavBar'
 import Title from '@/components/Title'
+import Footer from '@/components/Footer'
 
 export default {
   components: {
     NavBar,
-    Title
+    Title,
+    Footer
   }
 }
 </script>
@@ -29,6 +32,7 @@ export default {
 
 #app {
   display: flex;
+  height: 100vh;
   flex-direction: column;
   font-family: 'Noto Sans KR', sans-serif;
 }
