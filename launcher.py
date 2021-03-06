@@ -2,23 +2,22 @@ import os
 import time
 import json
 import sys
-from subprocess import Popen as pop
 
 MSYS2 = sys.platform.startswith("win") and ("GCC" in sys.version)
 APP_ENGINE = "APPENGINE_RUNTIME" in os.environ and "Development/" in os.environ.get(
     "SERVER_SOFTWARE", ""
 )
 WIN = sys.platform.startswith("win") and not APP_ENGINE and not MSYS2
-
+PYPATH = sys.executable
 try:
     import inquirer
 except ImportError:
-    pop("python -m pip install inquirer", shell=False)
+    os.system(f"{PYPATH} -m pip install inquirer")
     import inquirer
 try:
     import keyboard
 except ImportError:
-    pop("python -m pip install keyboard", shell=False)
+    os.system(f"{PYPATH} -m pip install keyboard")
     import keyboard
 
 # ================================================================================== #
@@ -60,11 +59,11 @@ def case(choice: str):
     elif choice == "2. 서버 실행":
         clear_shell()
         print("서버를 실행합니다....")
-        pop("python run.py", shell=False)
+        os.system(f"{PYPATH} run.py")
     elif choice == "3. 모듈 설치":
         clear_shell()
         print("모듈을 설치합니다.....")
-        os.system("python -m pip install -r requirements.txt")
+        os.system(f"{PYPATH} -m pip install -r requirements.txt")
         clear_shell()
         select_interface()
     elif choice == "4. 설정 보기":
