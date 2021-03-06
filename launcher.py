@@ -1,7 +1,8 @@
-import os
+import subprocess
 import time
 import json
 import sys
+import os
 
 MSYS2 = sys.platform.startswith("win") and ("GCC" in sys.version)
 APP_ENGINE = "APPENGINE_RUNTIME" in os.environ and "Development/" in os.environ.get(
@@ -12,12 +13,12 @@ PYPATH = sys.executable
 try:
     import inquirer
 except ImportError:
-    os.system(f"{PYPATH} -m pip install inquirer")
+    subprocess.call(f"{PYPATH} -m pip install inquirer", shell=False)
     import inquirer
 try:
     import keyboard
 except ImportError:
-    os.system(f"{PYPATH} -m pip install keyboard")
+    subprocess.call(f"{PYPATH} -m pip install keyboard", shell=False)
     import keyboard
 
 # ================================================================================== #
@@ -48,7 +49,7 @@ def clear_shell():
     if not isatty(sys.stdout):
         return
     if WIN:
-        os.system("cls")
+        subprocess.call("cls", shell=True)
     else:
         sys.stdout.write("\033[2J\033[1;1H")
 
@@ -59,11 +60,11 @@ def case(choice: str):
     elif choice == "2. 서버 실행":
         clear_shell()
         print("서버를 실행합니다....")
-        os.system(f"{PYPATH} run.py")
+        subprocess.call(f"{PYPATH} run.py", shell=False)
     elif choice == "3. 모듈 설치":
         clear_shell()
         print("모듈을 설치합니다.....")
-        os.system(f"{PYPATH} -m pip install -r requirements.txt")
+        subprocess.call(f"{PYPATH} -m pip install -r requirements.txt", shell=False)
         clear_shell()
         select_interface()
     elif choice == "4. 설정 보기":
