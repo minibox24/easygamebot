@@ -1,16 +1,24 @@
 import os
 import time
 import json
+import sys
+from subprocess import Popen as pop
+
+MSYS2 = sys.platform.startswith("win") and ("GCC" in sys.version)
+APP_ENGINE = "APPENGINE_RUNTIME" in os.environ and "Development/" in os.environ.get(
+    "SERVER_SOFTWARE", ""
+)
+WIN = sys.platform.startswith("win") and not APP_ENGINE and not MSYS2
 
 try:
     import inquirer
 except ImportError:
-    os.system("python -m pip install inquirer")
+    pop("python -m pip install inquirer", shell=False)
     import inquirer
 try:
     import keyboard
 except ImportError:
-    os.system("python -m pip install keyboard")
+    pop("python -m pip install keyboard", shell=False)
     import keyboard
 
 # ================================================================================== #
@@ -30,11 +38,20 @@ def select_interface():
     case(choice["MENU"])
 
 
-def clear_shell():
+def isatty(stream):
     try:
+        return stream.isatty()
+    except Exception:
+        return False
+
+
+def clear_shell():
+    if not isatty(sys.stdout):
+        return
+    if WIN:
         os.system("cls")
-    except:
-        os.system("clear")
+    else:
+        sys.stdout.write("\033[2J\033[1;1H")
 
 
 def case(choice: str):
@@ -43,7 +60,7 @@ def case(choice: str):
     elif choice == "2. 서버 실행":
         clear_shell()
         print("서버를 실행합니다....")
-        os.system("python run.py")
+        pop("python run.py", shell=False)
     elif choice == "3. 모듈 설치":
         clear_shell()
         print("모듈을 설치합니다.....")
