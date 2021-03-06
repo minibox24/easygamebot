@@ -15,12 +15,19 @@
 [파이썬 3.8.7 설치 링크](https://www.python.org/ftp/python/3.8.7/python-3.8.7-amd64.exe)
 
 1. 파이썬 설치 프로그램을 다운 받은 뒤, 프로그램을 실행합니다.
-2. 설치 프로그램에서 밑에 있는 `Add Python 3.8 to PATH` 체크박스를 체크합니다.
-3. `Install Now` 버튼을 누르고 설치를 시작합니다.
+
+3. 설치 프로그램에서 밑에 있는 `Add Python 3.8 to PATH` 체크박스를 체크합니다.
+
+5. `Install Now` 버튼을 누르고 설치를 시작합니다.
+
 ![Python1](.github/python1.png)
+
 4. 설치를 기다립니다.
+
 ![Python2](.github/python2.png)
+
 5. 설치를 마치면 Close 버튼을 눌러 설치 프로그램을 종료합니다.
+
 ![Python3](.github/python3.png)
 
 ### 프로젝트 설치
