@@ -1,32 +1,63 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/test">Test</router-link>
+    <div id="content">
+      <NavBar/>
+      <div style="flex: 1">
+        <Title/>
+        <div id="view">
+          <router-view/>
+        </div>
+      </div>
     </div>
-    <router-view/>
   </div>
 </template>
 
+<script>
+import NavBar from '@/components/NavBar'
+import Title from '@/components/Title'
+
+export default {
+  components: {
+    NavBar,
+    Title
+  }
+}
+</script>
+
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;900&display=swap');
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Sans KR', sans-serif;
+  overflow: hidden;
 }
 
-#nav {
-  padding: 30px;
+#content {
+  flex: auto 1 1;
+  display: flex;
+  color: white;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+#view {
+  height: 100%;
+  background: #2C3E50;
+  padding: 1rem;
+  overflow: auto;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+#view::-webkit-scrollbar {
+  width: 10px;
+}
+
+#view::-webkit-scrollbar-track:hover {
+  background: #33485A;
+}
+
+#view::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 10px 10px #5B7F91;
+  border-radius: 10px;
+  border: solid 3px transparent;
 }
 </style>

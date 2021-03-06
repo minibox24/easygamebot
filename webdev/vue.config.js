@@ -1,4 +1,9 @@
 module.exports = {
   outputDir: '../src/web/',
-  assetsDir: 'assets'
+  assetsDir: 'assets',
+  configureWebpack: {
+    devServer: {
+      disableHostCheck: true
+    }
+  }
 }
