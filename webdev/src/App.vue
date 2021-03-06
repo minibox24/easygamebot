@@ -2,7 +2,7 @@
   <div id="app">
     <div id="content">
       <NavBar/>
-      <div style="flex: 1">
+      <div style="display: flex; flex: 1; flex-direction: column; height: 100vh;">
         <Title/>
         <div id="view">
           <router-view/>
@@ -31,7 +31,6 @@ export default {
   display: flex;
   flex-direction: column;
   font-family: 'Noto Sans KR', sans-serif;
-  overflow: hidden;
 }
 
 #content {
