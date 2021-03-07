@@ -11,7 +11,10 @@ export default new Vuex.Store({
       robot: require('@/assets/robot.svg'),
       user: require('@/assets/user.svg'),
       settings: require('@/assets/settings.svg')
-    }
+    },
+    status: 0,
+    servers: '-',
+    users: '-'
   },
   mutations: {
     setTitle (state, title) {
@@ -46,6 +49,24 @@ export default new Vuex.Store({
           state.activate = ''
           reset()
       }
+    },
+    setStatus (state, status) {
+      switch (status) {
+        case 'offline':
+          state.status = 0
+          break
+        case 'online':
+          state.status = 1
+          break
+        default:
+          state.status = 2
+      }
+    },
+    setServerCount (state, count) {
+      state.servers = count
+    },
+    setUserCount (state, count) {
+      state.users = count
     }
   },
   actions: {
