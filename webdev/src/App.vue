@@ -35,6 +35,7 @@ export default {
   height: 100vh;
   flex-direction: column;
   font-family: 'Noto Sans KR', sans-serif;
+  letter-spacing: -1px;
 }
 
 #content {
