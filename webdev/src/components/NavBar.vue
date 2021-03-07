@@ -3,18 +3,15 @@
     <span id="navtitle">EasyGameBot</span>
     <div class="box" v-b-tooltip.v-light.hover.right="'봇'" v-on:click="goto('robot')">
       <img :src="this.$store.state.icons.robot" alt="robot">
-      <span v-if="this.$store.state.activate !== 'robot'">봇</span>
-      <span v-else class="activate-color">봇</span>
+      <span :class="{ 'activate-color': this.$store.state.activate === 'robot' }">봇</span>
     </div>
     <div class="box" v-b-tooltip.v-light.hover.right="'유저'" v-on:click="goto('user')">
       <img :src="this.$store.state.icons.user" alt="user">
-      <span v-if="this.$store.state.activate !== 'user'">유저</span>
-      <span v-else class="activate-color">유저</span>
+      <span :class="{ 'activate-color': this.$store.state.activate === 'user' }">유저</span>
     </div>
     <div class="box" v-b-tooltip.v-light.hover.right="'설정'" v-on:click="goto('settings')">
       <img :src="this.$store.state.icons.settings" alt="settings">
-      <span v-if="this.$store.state.activate !== 'settings'">설정</span>
-      <span v-else class="activate-color">설정</span>
+       <span :class="{ 'activate-color': this.$store.state.activate === 'settings' }">설정</span>
     </div>
     <div
       id="gitbutton" v-on:click="git"
