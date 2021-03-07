@@ -14,7 +14,13 @@ export default new Vuex.Store({
     },
     status: 0,
     servers: '-',
-    users: '-'
+    users: '-',
+    discord: {
+      avatar: '',
+      name: 'Bot',
+      tag: '0000'
+    },
+    botname: '게임봇'
   },
   mutations: {
     setTitle (state, title) {
