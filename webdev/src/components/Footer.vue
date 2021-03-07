@@ -1,22 +1,22 @@
 <template>
   <div id="footer">
     <div v-b-tooltip.v-light.hover.top="'봇 상태'"
-      class="item status" :class="{
+      class="footer-item footer-status" :class="{
       'color-online': this.$store.state.status,
       'color-offline': !this.$store.state.status,
       'color-error': this.$store.state.status === 2
     }">
       <span>{{ this.$store.state.status ? this.$store.state.status === 2 ? '오류' : '온라인' : '오프라인' }}</span>
     </div>
-    <div class="item" v-b-tooltip.v-light.hover.top="'서버 수'">
+    <div class="footer-item" v-b-tooltip.v-light.hover.top="'서버 수'">
       <img src="@/assets/server.svg" alt="user">
       <span>{{ this.$store.state.servers }}</span>
     </div>
-    <div class="item" v-b-tooltip.v-light.hover.top="'가입 유저 수'">
+    <div class="footer-item" v-b-tooltip.v-light.hover.top="'가입 유저 수'">
       <img src="@/assets/userblack.svg" alt="user">
       <span>{{ this.$store.state.users }}</span>
     </div>
-    <div class="item item-right"
+    <div class="footer-item footer-item-right"
       v-b-tooltip.v-light.hover.top="'시간'"
     >
       <span>{{ time }}</span>
@@ -54,7 +54,7 @@ export default {
   user-select: none;
 }
 
-.item {
+.footer-item {
   width: auto;
   margin-left: .5rem;
   padding-left: .5rem;
@@ -62,15 +62,15 @@ export default {
   cursor: pointer;
 }
 
-.item:hover {
+.footer-item:hover {
   background: #3BA776;
 }
 
-.item > img {
+.footer-item > img {
   margin-right: .2rem;
 }
 
-.status {
+.footer-status {
   width: 80px;
   color: white;
   text-align: center;
@@ -84,7 +84,7 @@ export default {
 .color-error { background: red; }
 .color-error:hover { background: red; }
 
-.item-right {
+.footer-item-right {
   margin-left: auto;
 }
 </style>

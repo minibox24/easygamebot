@@ -1,21 +1,21 @@
 <template>
   <div id="nav">
     <span id="navtitle">EasyGameBot</span>
-    <div class="box" v-b-tooltip.v-light.hover.right="'봇'" v-on:click="goto('robot')">
+    <div class="nav-box" v-b-tooltip.v-light.hover.right="'봇'" v-on:click="goto('robot')">
       <img :src="this.$store.state.icons.robot" alt="robot">
       <span :class="{ 'activate-color': this.$store.state.activate === 'robot' }">봇</span>
     </div>
-    <div class="box" v-b-tooltip.v-light.hover.right="'유저'" v-on:click="goto('user')">
+    <div class="nav-box" v-b-tooltip.v-light.hover.right="'유저'" v-on:click="goto('user')">
       <img :src="this.$store.state.icons.user" alt="user">
       <span :class="{ 'activate-color': this.$store.state.activate === 'user' }">유저</span>
     </div>
-    <div class="box" v-b-tooltip.v-light.hover.right="'설정'" v-on:click="goto('settings')">
+    <div class="nav-box" v-b-tooltip.v-light.hover.right="'설정'" v-on:click="goto('settings')">
       <img :src="this.$store.state.icons.settings" alt="settings">
        <span :class="{ 'activate-color': this.$store.state.activate === 'settings' }">설정</span>
     </div>
     <div
       id="gitbutton" v-on:click="git"
-      class="box" v-b-tooltip.v-light.hover.right="'Github'"
+      class="nav-box" v-b-tooltip.v-light.hover.right="'Github'"
     >
       <img src="@/assets/github.svg" alt="github">
       <span>Github</span>
@@ -67,7 +67,7 @@ export default {
   color: #42B983
 }
 
-.box {
+.nav-box {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,15 +75,15 @@ export default {
   cursor: pointer;
 }
 
-.box:hover {
+.nav-box:hover {
   background: #4E6D8D;
 }
 
-.box > img {
+.nav-box > img {
   width: 24px;
 }
 
-.box > span {
+.nav-box > span {
   display: none;
 }
 
@@ -107,12 +107,12 @@ export default {
     font-weight: bold;
   }
 
-  .box {
+  .nav-box {
     justify-content: left;
     padding-left: 1.5rem;
   }
 
-  .box > span {
+  .nav-box > span {
     margin-left: .5rem;
     display: initial;
   }
