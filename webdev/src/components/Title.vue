@@ -24,5 +24,6 @@ export default {
   padding-left: 1rem;
   font-weight: lighter;
   font-size: 2rem;
+  user-select: none;
 }
 </style>

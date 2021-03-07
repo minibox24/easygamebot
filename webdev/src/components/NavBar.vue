@@ -59,6 +59,7 @@ export default {
   width: 46px;
   flex-direction: column;
   padding-top: 3rem;
+  user-select: none;
 }
 
 #navtitle {
