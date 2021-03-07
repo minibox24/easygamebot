@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     setTime () {
-      this.time = dayjs().format('YYYY. MM. DD. HH:mm:ss')
+      this.time = dayjs().format('YYYY. MM. DD HH:mm:ss')
     }
   }
 }
