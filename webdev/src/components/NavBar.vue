@@ -92,7 +92,7 @@ export default {
   margin-bottom: 1rem;
 }
 
-@media ( min-width: 1000px ) {
+@media ( min-width: 1350px ) {
   #nav {
     width: 180px;
     padding-top: 0;
