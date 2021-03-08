@@ -1,18 +1,3 @@
-<template>
-  <div id="app">
-    <div id="content">
-      <NavBar/>
-      <div style="display: flex; flex: 1; flex-direction: column; height: calc(100vh - 28px);">
-        <Title/>
-        <div id="view">
-          <router-view/>
-        </div>
-      </div>
-    </div>
-    <Footer/>
-  </div>
-</template>
-
 <script>
 import NavBar from '@/components/NavBar'
 import Title from '@/components/Title'
@@ -27,7 +12,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
 
 #app {
@@ -71,3 +56,18 @@ export default {
   border: solid 3px transparent;
 }
 </style>
+
+<template>
+  <div id="app">
+    <div id="content">
+      <NavBar/>
+      <div style="display: flex; flex: 1; flex-direction: column; height: calc(100vh - 28px);">
+        <Title/>
+        <div id="view">
+          <router-view/>
+        </div>
+      </div>
+    </div>
+    <Footer/>
+  </div>
+</template>
