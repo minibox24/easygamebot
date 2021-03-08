@@ -13,12 +13,12 @@ PYPATH = sys.executable
 try:
     import inquirer
 except ImportError:
-    subprocess.call(f"{PYPATH} -m pip install inquirer", shell=platform_settings())
+    subprocess.call(f"{PYPATH} -m pip install inquirer", shell=False)
     import inquirer
 try:
     import click
 except ImportError:
-    subprocess.call(f"{PYPATH} -m pip install click", shell=platform_settings())
+    subprocess.call(f"{PYPATH} -m pip install click", shell=False)
     import click
 
 # ================================================================================== #
@@ -51,11 +51,11 @@ def case(choice: str):
     elif choice == "2. 서버 실행":
         click.clear()
         print("서버를 실행합니다....")
-        subprocess.call(f"{PYPATH} run.py", shell=platform_settings())
+        subprocess.call(f"{PYPATH} run.py", shell=False)
     elif choice == "3. 모듈 설치":
         click.clear()
         print("모듈을 설치합니다.....")
-        subprocess.call(f"{PYPATH} -m pip install -r requirements.txt", shell=platform_settings())
+        subprocess.call(f"{PYPATH} -m pip install -r requirements.txt", shell=False)
         click.clear()
         select_interface()
     else:
@@ -67,13 +67,6 @@ def loadjson(src):
     with open(src, "r", encoding="utf-8") as f:
         return json.load(f)
 
-def platform_settings():
-    if not isatty(sys.stdout):
-        return True
-    if WIN:
-        return False
-    else:
-        return True
 
 def savejson(src, data):
     with open(src, "w", encoding="utf-8") as f:
