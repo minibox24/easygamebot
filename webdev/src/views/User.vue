@@ -26,7 +26,7 @@
               class="mr-1 iconbtn" v-b-tooltip.v-light.hover.top="'상세 정보'"
             />
             <b-icon
-              icon="trash-fill" variant="danger"
+              icon="trash-fill" variant="danger" @click="removeModal(user)"
               class="iconbtn" v-b-tooltip.v-light.hover.top="'삭제'"
             />
           </td>
@@ -98,6 +98,28 @@ export default {
   mounted () {
     this.$store.commit('setTitle', '유저')
     this.$store.commit('setActivate', this.$route.name)
+  },
+  methods: {
+    removeModal (user) {
+      const h = this.$createElement
+      const msg1 = h('p', `정말로 유저 ${user.name}#${user.tag}를 삭제할까요?`)
+      const msg2 = h('b', '삭제 후 복구는 불가능합니다!!')
+      this.$bvModal.msgBoxConfirm([msg1, msg2], {
+        title: '유저 삭제',
+        headerBgVariant: 'danger',
+        headerTextVariant: 'light',
+        okVariant: 'danger',
+        okTitle: '삭제',
+        cancelTitle: '취소',
+        hideHeaderClose: false,
+        centered: true
+      })
+        .then(value => {
+          if (value) {
+            alert('삭제 처리')
+          }
+        })
+    }
   }
 }
 </script>
