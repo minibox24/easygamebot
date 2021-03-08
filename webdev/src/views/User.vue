@@ -22,7 +22,7 @@
           <td>{{ user.checkAt }}</td>
           <td>
             <b-icon
-              icon="info-circle-fill" variant="info"
+              icon="info-circle-fill" variant="info" @click="select=user" v-b-modal.modal-info
               class="mr-1 iconbtn" v-b-tooltip.v-light.hover.top="'상세 정보'"
             />
             <b-icon
@@ -33,6 +33,31 @@
         </tr>
       </tbody>
     </table>
+
+    <b-modal
+      id="modal-info" centered header-bg-variant="info"
+      ok-only title="상세 정보" header-text-variant="light"
+    >
+      <div class="profile">
+        <b-avatar class="mr-2" :src="select.avatar" size="64"/>
+        <span>{{ select.name }}</span>
+        <span class="discord-tag">#{{ select.tag }}</span>
+      </div>
+      <div class="box-column">
+        <div class="box-info">
+          <span class="info-name">잔액</span>
+          <span>{{ select.money }}{{ unit }}</span>
+        </div>
+        <div class="box-info">
+          <span class="info-name">가입일</span>
+          <span>{{ select.joinAt }}</span>
+        </div>
+        <div class="box-info">
+          <span class="info-name">출석체크일</span>
+          <span>{{ select.checkAt }}</span>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -66,7 +91,8 @@ export default {
         { avatar: '', name: 'Mdfginibox', tag: '3332', money: '1243', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
         { avatar: '', name: 'Mbox', tag: '3332', money: '14444423', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' }
       ],
-      unit: '원'
+      unit: '원',
+      select: {}
     }
   },
   mounted () {
@@ -143,6 +169,10 @@ tr td:last-child {
 
 .iconbtn {
   cursor: pointer;
+}
+
+#modal-info .profile {
+  justify-content: center;
 }
 
 @media ( min-width: 900px ) {
