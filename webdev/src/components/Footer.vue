@@ -1,29 +1,3 @@
-<template>
-  <div id="footer">
-    <div v-b-tooltip.v-light.hover.top="'봇 상태'"
-      class="footer-item footer-status" :class="{
-      'color-online': this.$store.state.status,
-      'color-offline': !this.$store.state.status,
-      'color-error': this.$store.state.status === 2
-    }">
-      <span>{{ this.$store.state.status ? this.$store.state.status === 2 ? '오류' : '온라인' : '오프라인' }}</span>
-    </div>
-    <div class="footer-item" v-b-tooltip.v-light.hover.top="'서버 수'">
-      <img src="@/assets/server.svg" alt="user">
-      <span>{{ this.$store.state.servers }}</span>
-    </div>
-    <div class="footer-item" v-b-tooltip.v-light.hover.top="'가입 유저 수'">
-      <img src="@/assets/userblack.svg" alt="user">
-      <span>{{ this.$store.state.users }}</span>
-    </div>
-    <div class="footer-item footer-item-right"
-      v-b-tooltip.v-light.hover.top="'시간'"
-    >
-      <span>{{ time }}</span>
-    </div>
-  </div>
-</template>
-
 <script>
 const dayjs = require('dayjs')
 
@@ -45,7 +19,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #footer {
   height: 28px;
   background: #42B983;
@@ -88,3 +62,29 @@ export default {
   margin-left: auto;
 }
 </style>
+
+<template>
+  <div id="footer">
+    <div v-b-tooltip.v-light.hover.top="'봇 상태'"
+      class="footer-item footer-status" :class="{
+      'color-online': this.$store.state.status,
+      'color-offline': !this.$store.state.status,
+      'color-error': this.$store.state.status === 2
+    }">
+      <span>{{ this.$store.state.status ? this.$store.state.status === 2 ? '오류' : '온라인' : '오프라인' }}</span>
+    </div>
+    <div class="footer-item" v-b-tooltip.v-light.hover.top="'서버 수'">
+      <img src="@/assets/server.svg" alt="user">
+      <span>{{ this.$store.state.servers }}</span>
+    </div>
+    <div class="footer-item" v-b-tooltip.v-light.hover.top="'가입 유저 수'">
+      <img src="@/assets/userblack.svg" alt="user">
+      <span>{{ this.$store.state.users }}</span>
+    </div>
+    <div class="footer-item footer-item-right"
+      v-b-tooltip.v-light.hover.top="'시간'"
+    >
+      <span>{{ time }}</span>
+    </div>
+  </div>
+</template>

@@ -1,28 +1,3 @@
-<template>
-  <div id="nav">
-    <span id="navtitle">EasyGameBot</span>
-    <div class="nav-box" v-b-tooltip.v-light.hover.right="'봇'" v-on:click="goto('robot')">
-      <img :src="this.$store.state.icons.robot" alt="robot">
-      <span :class="{ 'activate-color': this.$store.state.activate === 'robot' }">봇</span>
-    </div>
-    <div class="nav-box" v-b-tooltip.v-light.hover.right="'유저'" v-on:click="goto('user')">
-      <img :src="this.$store.state.icons.user" alt="user">
-      <span :class="{ 'activate-color': this.$store.state.activate === 'user' }">유저</span>
-    </div>
-    <div class="nav-box" v-b-tooltip.v-light.hover.right="'설정'" v-on:click="goto('settings')">
-      <img :src="this.$store.state.icons.settings" alt="settings">
-       <span :class="{ 'activate-color': this.$store.state.activate === 'settings' }">설정</span>
-    </div>
-    <div
-      id="gitbutton" v-on:click="git"
-      class="nav-box" v-b-tooltip.v-light.hover.right="'Github'"
-    >
-      <img src="@/assets/github.svg" alt="github">
-      <span>Github</span>
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
   name: 'NavBar',
@@ -47,7 +22,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #nav {
   display: flex;
   background: #1D2936;
@@ -119,3 +94,28 @@ export default {
 }
 
 </style>
+
+<template>
+  <div id="nav">
+    <span id="navtitle">EasyGameBot</span>
+    <div class="nav-box" v-b-tooltip.v-light.hover.right="'봇'" v-on:click="goto('robot')">
+      <img :src="this.$store.state.icons.robot" alt="robot">
+      <span :class="{ 'activate-color': this.$store.state.activate === 'robot' }">봇</span>
+    </div>
+    <div class="nav-box" v-b-tooltip.v-light.hover.right="'유저'" v-on:click="goto('user')">
+      <img :src="this.$store.state.icons.user" alt="user">
+      <span :class="{ 'activate-color': this.$store.state.activate === 'user' }">유저</span>
+    </div>
+    <div class="nav-box" v-b-tooltip.v-light.hover.right="'설정'" v-on:click="goto('settings')">
+      <img :src="this.$store.state.icons.settings" alt="settings">
+       <span :class="{ 'activate-color': this.$store.state.activate === 'settings' }">설정</span>
+    </div>
+    <div
+      id="gitbutton" v-on:click="git"
+      class="nav-box" v-b-tooltip.v-light.hover.right="'Github'"
+    >
+      <img src="@/assets/github.svg" alt="github">
+      <span>Github</span>
+    </div>
+  </div>
+</template>

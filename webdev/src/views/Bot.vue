@@ -105,7 +105,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #bot {
   display: flex;
   min-height: 100%;

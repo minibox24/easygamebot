@@ -124,7 +124,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #user {
   display: flex;
   justify-content: center;
@@ -195,6 +195,34 @@ tr td:last-child {
 
 #modal-info .profile {
   justify-content: center;
+}
+
+.box-column {
+  display: flex;
+  justify-content: center;
+}
+
+.box-info {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 1rem;
+}
+
+.info-name {
+  font-weight: bold;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.discord-tag {
+  color: gray;
 }
 
 @media ( min-width: 900px ) {

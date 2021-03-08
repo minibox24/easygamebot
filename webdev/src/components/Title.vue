@@ -1,16 +1,10 @@
-<template>
-  <div id="title">
-    <span>{{ this.$store.state.title }}</span>
-  </div>
-</template>
-
 <script>
 export default {
   name: 'Title'
 }
 </script>
 
-<style>
+<style scoped>
 #title {
   display: flex;
   width: 100%;
@@ -26,3 +20,9 @@ export default {
   user-select: none;
 }
 </style>
+
+<template>
+  <div id="title">
+    <span>{{ this.$store.state.title }}</span>
+  </div>
+</template>

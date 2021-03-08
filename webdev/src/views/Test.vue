@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #test {
   display: flex;
   flex-direction: column;

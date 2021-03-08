@@ -14,7 +14,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #gitstar {
   text-decoration: none;
   color: #42B983;
