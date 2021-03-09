@@ -91,7 +91,7 @@ export default {
         { avatar: '', name: 'Mdfginibox', tag: '3332', money: '1243', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
         { avatar: '', name: 'Mbox', tag: '3332', money: '14444423', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' }
       ],
-      unit: '원',
+      unit: this.$store.state.config.game.unit,
       select: {}
     }
   },
