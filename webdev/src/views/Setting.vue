@@ -23,7 +23,19 @@
       </div>
       <div class="box items">
         <span class="title">아이템</span>
-        <p>{{ config.game.items }}</p>
+        <div class="item" v-for="(item, index) in config.game.items" v-bind:key="index">
+          <span>{{ item.name }}</span>
+          <div class="actions">
+            <b-icon
+              icon="info-circle-fill" variant="info" @click="select=item" v-b-modal.modal-info
+              class="mr-1 iconbtn" v-b-tooltip.v-light.hover.top="'상세 정보'"
+            />
+            <b-icon
+              icon="trash-fill" variant="danger" @click="removeModal(item)"
+              class="iconbtn" v-b-tooltip.v-light.hover.top="'삭제'"
+            />
+          </div>
+        </div>
       </div>
       <div class="box">
         <span class="title">봇</span>
@@ -37,6 +49,24 @@
         <Input name="비밀번호" type="password" :showpw="showPW" v-model="config.admin_tool.password"/>
       </div>
     </div>
+
+    <b-modal
+      id="modal-info" centered header-bg-variant="info"
+      ok-only title="상세 정보" header-text-variant="light"
+    >
+      <h1>{{ select.name }}</h1>
+      <span>{{ select.description }}</span>
+      <div class="box-column">
+        <div class="box-info">
+          <span class="info-name">가격</span>
+          <span>{{ select.price }}{{ unit }}</span>
+        </div>
+        <div class="box-info">
+          <span class="info-name">효과 태그</span>
+          <span>{{ select.effect }}</span>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -48,7 +78,9 @@ export default {
   data () {
     return {
       config: JSON.parse(JSON.stringify(this.$store.state.config)),
-      showPW: false
+      showPW: false,
+      select: {},
+      unit: this.$store.state.config.game.unit
     }
   },
   mounted () {
@@ -115,5 +147,33 @@ export default {
 
 .items {
   width: 20rem;
+}
+
+.item {
+  display: flex;
+  background: #0c1c24;
+  margin: .5rem;
+  padding: .5rem;
+  border-radius: 10px;
+}
+
+.actions {
+  margin-left: auto;
+}
+
+.box-column {
+  display: flex;
+  justify-content: center;
+}
+
+.box-info {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 1rem;
+}
+
+.info-name {
+  font-weight: bold;
 }
 </style>
