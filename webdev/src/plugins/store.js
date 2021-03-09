@@ -20,7 +20,31 @@ export default new Vuex.Store({
       name: 'Bot',
       tag: '0000'
     },
-    botname: '게임봇'
+    config: {
+      game: {
+        name: '',
+        unit: '',
+        register_money: 0,
+        check_money: 0,
+        check_time: 0,
+        work_money: '',
+        stock: {
+          stocks: [],
+          stock_default_price: 0,
+          stock_change_time: 0
+        },
+        items: []
+      },
+      bot: {
+        token: '',
+        prefix: '',
+        status: '',
+        reply_mention: false
+      },
+      admin_tool: {
+        password: ''
+      }
+    }
   },
   mutations: {
     setTitle (state, title) {
@@ -73,6 +97,9 @@ export default new Vuex.Store({
     },
     setUserCount (state, count) {
       state.users = count
+    },
+    setConfig (state, data) {
+      state.config = data
     }
   },
   actions: {
