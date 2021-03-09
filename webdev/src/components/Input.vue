@@ -55,7 +55,7 @@ export default {
 
 .work-money-box {
   display: flex;
-  align-items: center;
+  align-items: baseline;
 }
 
 .work-money-box > input {
