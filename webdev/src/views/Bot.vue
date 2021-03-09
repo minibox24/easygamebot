@@ -4,7 +4,7 @@
       <b-avatar class="mr-3" :src="this.$store.state.discord.avatar" size="128px"/>
       <span class="discord-name">{{ this.$store.state.discord.name }}</span>
       <span class="discord-tag">#{{ this.$store.state.discord.tag }}</span>
-      <span class="botname">({{ this.$store.state.botname }})</span>
+      <span class="botname">({{ this.$store.state.config.game.name }})</span>
     </div>
     <div class="buttons mt-3">
       <b-button-group size="lg">
@@ -40,12 +40,11 @@
         <div class="box token-box">
           <div>
             <span class="info-name">봇 토큰</span>
-            <b-button v-on:click="showhide">{{ showtoken ? '숨기기' : '보이기' }}</b-button>
+            <b-button @click="showtoken = !showtoken">{{ showtoken ? '숨기기' : '보이기' }}</b-button>
           </div>
           <b-form-input
             id="token" :type="showtoken ? 'text' : 'password'"
-            placeholder="Token" v-model="token" :state="checkToken"
-            aria-describedby="input-live-help aaa"
+            :value="$store.state.config.bot.token" disabled
           />
         </div>
         <div style="display: flex" class="box flex-row">
@@ -74,8 +73,7 @@ export default {
       cpu: '100%',
       ram: '8GB / 8GB',
       pid: '12345',
-      showtoken: false,
-      token: ''
+      showtoken: false
     }
   },
   mounted () {
@@ -92,14 +90,6 @@ export default {
         default:
           return '오류'
       }
-    },
-    showhide () {
-      this.showtoken = !this.showtoken
-    }
-  },
-  computed: {
-    checkToken () {
-      return /[a-zA-Z0-9_-]{23,28}\.[a-zA-Z0-9_-]{6,7}\.[a-zA-Z0-9_-]{27}/.test(this.token)
     }
   }
 }
@@ -108,7 +98,7 @@ export default {
 <style scoped>
 #bot {
   display: flex;
-  min-height: 100%;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
