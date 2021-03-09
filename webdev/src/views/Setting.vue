@@ -54,8 +54,10 @@
       id="modal-info" centered header-bg-variant="info"
       ok-only title="상세 정보" header-text-variant="light"
     >
-      <h1>{{ select.name }}</h1>
-      <span>{{ select.description }}</span>
+      <div class="info">
+        <h1>{{ select.name }}</h1>
+        <span>{{ select.description }}</span>
+      </div>
       <div class="box-column">
         <div class="box-info">
           <span class="info-name">가격</span>
@@ -124,6 +126,26 @@ export default {
             this.save()
           }
         })
+    },
+    removeModal (item) {
+      const h = this.$createElement
+      const msg1 = h('p', `정말로 아이템 ${item.name}을(를) 삭제할까요?`)
+      const msg2 = h('b', '삭제 후 복구는 불가능합니다!!')
+      this.$bvModal.msgBoxConfirm([msg1, msg2], {
+        title: '아이템 삭제',
+        headerBgVariant: 'danger',
+        headerTextVariant: 'light',
+        okVariant: 'danger',
+        okTitle: '삭제',
+        cancelTitle: '취소',
+        hideHeaderClose: false,
+        centered: true
+      })
+        .then(value => {
+          if (value) {
+            alert('삭제 처리')
+          }
+        })
     }
   }
 }
@@ -175,5 +197,10 @@ export default {
 
 .info-name {
   font-weight: bold;
+}
+
+.info > * {
+  display: flex;
+  justify-content: center;
 }
 </style>
