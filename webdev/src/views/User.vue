@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="userbox" v-for="user in users" :key="user">
+        <tr class="userbox" v-for="(user, index) in users" :key="index">
           <td class="user">
             <b-avatar class="mr-1" :src="user.avatar" size="16px"/>
             <span>{{ user.name.length > 16 ? `${user.name.slice(0, 15)}...` : user.name }}</span>
