@@ -14,7 +14,7 @@
         <tr class="userbox" v-for="(user, index) in users" :key="index">
           <td class="user">
             <b-avatar class="mr-1" :src="user.avatar" size="16px"/>
-            <span>{{ user.name.length > 16 ? `${user.name.slice(0, 15)}...` : user.name }}</span>
+            <span class="discord-name">{{ user.name }}</span>
             <span class="discord-tag">#{{ user.tag }}</span>
           </td>
           <td>{{ user.money }}{{ unit }}</td>
@@ -67,7 +67,7 @@ export default {
     return {
       users: [
         { avatar: '', name: 'Minibsdfgsdfgsdfgdox', tag: '3332', money: '123', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: '붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸', tag: '3332', money: '12344', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
+        { avatar: '', name: '붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸', tag: '3332', money: '12344', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
         { avatar: '', name: 'Mindfgibox', tag: '3332', money: '124443', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
         { avatar: '', name: 'Mini', tag: '3332', money: '1423', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
         { avatar: '', name: 'Mdfginibox', tag: '3332', money: '1243', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
@@ -161,9 +161,10 @@ tr td:last-child {
 }
 
 #user-table td:nth-child(1) {
-  width: auto;
   padding-right: 1rem;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   justify-content: left;
   align-items: center;
 }
@@ -217,6 +218,15 @@ tr td:last-child {
   font-weight: bold;
   font-size: 1.5rem;
   margin-bottom: 1rem;
+}
+
+.discord-name {
+  display: inline-block;
+  width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
 }
 
 .discord-tag {
