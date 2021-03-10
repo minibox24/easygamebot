@@ -1,8 +1,9 @@
 from sanic import Sanic, response
+from src.api import api
 
 app = Sanic(__name__)
 
-
+app.blueprint(api)
 app.static("/assets", "src/web/assets/")
 app.static("/favicon.ico", "src/web/favicon.ico")
 
