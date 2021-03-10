@@ -40,6 +40,11 @@ export default {
 }
 </script>
 
+<style>
+.input-stocks input { color: white!important }
+.input-stocks .text-muted { color: orange!important }
+</style>
+
 <style scoped>
 .input-box {
   margin: 2rem 1rem;
