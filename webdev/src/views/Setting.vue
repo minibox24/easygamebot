@@ -37,7 +37,7 @@
               class="mr-1 iconbtn" v-b-tooltip.v-light.hover.top="'상세 정보'"
             />
             <b-icon
-              icon="trash-fill" variant="danger" @click="removeModal(item)"
+              icon="trash-fill" variant="danger" @click="itemRemove(item)"
               class="iconbtn" v-b-tooltip.v-light.hover.top="'삭제'"
             />
           </div>
@@ -177,7 +177,7 @@ export default {
           }
         })
     },
-    removeModal (item) {
+    itemRemove (item) {
       const h = this.$createElement
       const msg1 = h('p', `정말로 아이템 ${item.name}을(를) 삭제할까요?`)
       const msg2 = h('b', '삭제 후 복구는 불가능합니다!!')
@@ -193,7 +193,8 @@ export default {
       })
         .then(value => {
           if (value) {
-            alert('삭제 처리')
+            const idx = this.config.game.items.indexOf(item)
+            this.config.game.items.splice(idx, 1)
           }
         })
     },
