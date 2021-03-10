@@ -238,16 +238,14 @@ export default {
 
 .box {
   display: inline-block;
+  min-width: 15rem;
   flex-direction: column;
   border-radius: 10px;
   background: #1D2936;
   padding: 1rem;
   justify-content: center;
   margin: 1rem;
-}
-
-.items {
-  width: 20rem;
+  box-shadow: 2px 2px 2px 2px black;
 }
 
 .item {
