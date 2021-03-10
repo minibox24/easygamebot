@@ -1,6 +1,7 @@
 from src.bot import EasyGameBot
 from src.webserver import app
 from src.utils import get_config
+from sanic.websocket import WebSocketProtocol
 import asyncio
 
 
@@ -17,6 +18,7 @@ if __name__ == "__main__":
             host=config["admin_tool"]["host"],
             port=config["admin_tool"]["port"],
             return_asyncio_server=True,
+            protocol=WebSocketProtocol,
             access_log=False,
         )
     )
