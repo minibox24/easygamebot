@@ -54,7 +54,7 @@ export default {
   border-color: gray;
   background: gray;
   color: white;
-  width: 18.5rem;
+  max-width: 18.5rem;
   margin-top: .5rem;
 }
 
@@ -64,7 +64,7 @@ export default {
 }
 
 .work-money-box > input {
-  width: 8.5rem;
+  max-width: 8.5rem;
 }
 
 .work-money-box > span {
