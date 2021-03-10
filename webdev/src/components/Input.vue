@@ -7,9 +7,9 @@
       :type="showpw ? 'text' : 'password'" @input="update" v-model="value"
     />
     <b-form-tags
-      v-else-if="type === 'stocks'" @input="update" :limit="10"
+      v-else-if="type === 'stocks'" @input="update" v-model="value" :limit="10"
       limitTagsText="주식 종목은 최대 10개입니다" duplicateTagText="중복되는 이름입니다"
-      placeholder="" class="input" tag-variant="light" add-button-variant="light" remove-on-delete
+      placeholder="" class="input input-stocks" tag-variant="light" add-button-variant="light" remove-on-delete
     />
     <b-form-checkbox
       v-else-if="type === 'bool'"
