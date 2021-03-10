@@ -20,9 +20,9 @@
       멘션
     </b-form-checkbox>
     <div v-else-if="type === 'work_money'" class="work-money-box">
-      <b-form-input class="input" type="number"/>
+      <b-form-input class="input" type="number" ref="wm1" @input="update" v-model="value.split('-').map(Number)[0]"/>
       <span>-</span>
-      <b-form-input class="input" type="number"/>
+      <b-form-input class="input" type="number" ref="wm2" @input="update" v-model="value.split('-').map(Number)[1]"/>
     </div>
     <b-form-input v-else @input="update" class="input" v-model="value"/>
   </div>
@@ -34,6 +34,10 @@ export default {
   props: ['value', 'name', 'type', 'showpw'],
   methods: {
     update (value) {
+      if (this.type === 'work_money') {
+        this.$emit('input', `${this.$refs.wm1.$el.value}-${this.$refs.wm2.$el.value}`)
+        return
+      }
       this.$emit('input', value)
     }
   }
