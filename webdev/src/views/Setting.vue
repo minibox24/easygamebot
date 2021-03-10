@@ -1,11 +1,11 @@
 <template>
   <div id="setting">
-    <div>
+    <div class="buttons">
       <b-button class="mr-2" @click="showPW = !showPW">비밀번호 {{ showPW ? '숨기기' : '보이기' }}</b-button>
       <b-button class="mr-2" variant="primary" @click="save">저장</b-button>
       <b-button variant="danger" @click="reset">초기화</b-button>
     </div>
-    <div>
+    <div class="boxes">
       <div class="box">
         <span class="title">게임</span>
         <Input name="봇 이름" type="str" v-model="config.game.name"/>
@@ -152,6 +152,24 @@ export default {
 </script>
 
 <style scoped>
+#setting {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.boxes {
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  column-gap: 2rem;
+}
+
 .title {
   font-weight: bold;
   font-size: 2rem;
@@ -202,5 +220,15 @@ export default {
 .info > * {
   display: flex;
   justify-content: center;
+}
+
+@media ( min-width: 1350px ) {
+  .box {
+    min-width: 20rem;
+  }
+
+  .boxes {
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  }
 }
 </style>
