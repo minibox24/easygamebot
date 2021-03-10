@@ -22,7 +22,13 @@
         <Input name="주가 변동 시간 (초)" type="int" v-model="config.game.stock.stock_change_time"/>
       </div>
       <div class="box items">
-        <span class="title">아이템</span>
+        <div style="display: flex; align-items: center">
+          <span class="title">아이템</span>
+          <b-icon
+            class="ml-2" icon="plus" v-b-modal.modal-create
+            variant="success" scale="2.5"
+          />
+        </div>
         <div class="item" v-for="(item, index) in config.game.items" v-bind:key="index">
           <span>{{ item.name }}</span>
           <div class="actions">
@@ -69,6 +75,44 @@
         </div>
       </div>
     </b-modal>
+    <b-modal
+      id="modal-create" centered header-bg-variant="primary"
+      title="아이템 생성" header-text-variant="light" @ok="itemCreate"
+      cancel-title="취소" ok-title="생성" ok-variant="success"
+    >
+      <b-form-group
+        label="아이템 이름"
+        label-for="item-name"
+        label-cols-sm="4"
+        label-align-sm="right"
+      >
+        <b-form-input id="item-name" v-model="create.name"/>
+      </b-form-group>
+      <b-form-group
+        label="아이템 설명"
+        label-for="item-desc"
+        label-cols-sm="4"
+        label-align-sm="right"
+      >
+        <b-form-input id="item-desc" v-model="create.desc"/>
+      </b-form-group>
+      <b-form-group
+        label="아이템 가격"
+        label-for="item-price"
+        label-cols-sm="4"
+        label-align-sm="right"
+      >
+        <b-form-input id="item-price" type="number" v-model="create.price"/>
+      </b-form-group>
+      <b-form-group
+        label="아이템 효과 태그"
+        label-for="item-effect"
+        label-cols-sm="4"
+        label-align-sm="right"
+      >
+        <b-form-input id="item-effect" v-model="create.effect"/>
+      </b-form-group>
+    </b-modal>
   </div>
 </template>
 
@@ -82,7 +126,13 @@ export default {
       config: JSON.parse(JSON.stringify(this.$store.state.config)),
       showPW: false,
       select: {},
-      unit: this.$store.state.config.game.unit
+      unit: this.$store.state.config.game.unit,
+      create: {
+        name: '',
+        desc: '',
+        price: 0,
+        effect: ''
+      }
     }
   },
   mounted () {
@@ -146,6 +196,16 @@ export default {
             alert('삭제 처리')
           }
         })
+    },
+    itemCreate () {
+      this.config.game.items.push({
+        name: this.create.name,
+        description: this.create.desc,
+        price: this.create.price,
+        effect: this.create.effect
+      })
+
+      this.create = { name: '', desc: '', price: 0, effect: '' }
     }
   }
 }
