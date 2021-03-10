@@ -14,7 +14,7 @@ export default new Vuex.Store({
     },
     status: 0,
     servers: '-',
-    users: '-',
+    users: [],
     discord: {
       avatar: '',
       name: 'Bot',

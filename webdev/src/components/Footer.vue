@@ -79,7 +79,7 @@ export default {
     </div>
     <div class="footer-item" v-b-tooltip.v-light.hover.top="'가입 유저 수'">
       <img src="@/assets/userblack.svg" alt="user">
-      <span>{{ this.$store.state.users }}</span>
+      <span>{{ this.$store.state.users.length }}</span>
     </div>
     <div class="footer-item footer-item-right"
       v-b-tooltip.v-light.hover.top="'시간'"

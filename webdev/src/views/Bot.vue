@@ -32,7 +32,7 @@
           </div>
           <div class="box-info">
             <span class="info-name">가입 유저 수</span>
-            <span>{{ this.$store.state.users }}</span>
+            <span>{{ this.$store.state.users.length }}</span>
           </div>
         </div>
       </div>
