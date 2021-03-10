@@ -4,6 +4,7 @@ import json
 import sqlite3
 import time
 from dataclasses import dataclass
+from enum import Enum
 
 from typing import Dict, List, Union, Optional
 
@@ -144,3 +145,9 @@ for i in config["game"]["items"]:
             ItemEffect(i.get("effect")),
         )
     )
+
+
+class Status(Enum):
+    OK = "ok"
+    ERROR = "err"
+    AUTO = "auth"
