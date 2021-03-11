@@ -12,8 +12,9 @@ if __name__ == "__main__":
 
     loop = asyncio.get_event_loop()
 
-    BotFuture = asyncio.ensure_future(bot.start(config["bot"]["token"]))
-    app.BotFuture = BotFuture
+    # BotFuture = asyncio.ensure_future(bot.start(config["bot"]["token"]))
+    # app.BotFuture = BotFuture
+
     Webfuture = asyncio.ensure_future(
         app.create_server(
             host=config["admin_tool"]["host"],
