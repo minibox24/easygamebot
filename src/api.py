@@ -81,7 +81,7 @@ async def status(req):
     error = False
     try:
         if done:
-            error = type(req.app.BotFuture.exception()) == discord.LoginFailure
+            error = isinstance(req.app.BotFuture.exception(), discord.LoginFailure)
     except asyncio.InvalidStateError:
         pass
 
