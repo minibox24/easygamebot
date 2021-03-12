@@ -47,11 +47,11 @@ def authorized():
                 pass
             except AttributeError:
                 pass
+
             if is_auth:
                 res = await f(request, *args, **kwargs)
                 return res
-            else:
-                return response(Status.AUTH, "need authorization", status_code=401)
+            return response(Status.AUTH, "need authorization", status_code=401)
 
         return decorated_function
 
