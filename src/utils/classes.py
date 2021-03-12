@@ -150,4 +150,4 @@ for i in config["game"]["items"]:
 class Status(Enum):
     OK = "ok"
     ERROR = "err"
-    AUTO = "auth"
+    AUTH = "auth"
