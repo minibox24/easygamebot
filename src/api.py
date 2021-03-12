@@ -106,3 +106,15 @@ async def bot_off(req):
 
     future.cancel()
     return response(Status.OK, "bot off")
+
+
+@api.route("/restart")
+@authorized()
+async def bot_restart(req):
+    future: asyncio.Future = req.app.BotFuture
+    bot: commands.Bot = req.app.bot
+    config = get_config()
+
+    future.cancel()
+    req.app.BotFuture = asyncio.ensure_future(bot.start(config["bot"]["token"]))
+    return response(Status.OK, "bot off")
