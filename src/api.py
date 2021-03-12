@@ -1,5 +1,6 @@
 from sanic import Blueprint
 from sanic.response import json as resjson
+import discord
 from discord.ext import commands
 
 from src.utils import get_config
@@ -61,11 +62,36 @@ def authorized():
 @api.route("/")
 async def main(req):
     bot: commands.Bot = req.app.bot
+
     print(bot.is_ready(), req.app.bf.done())
     return response(Status.OK, "Hello, World!")
 
 
+@api.route("/status")
+async def status(req):
+    try:
+        future: asyncio.Future = req.app.BotFuture
+        bot: commands.Bot = req.app.bot
+    except AttributeError:
+        return response(Status.OK, data={"status": 0})
+
+    done = future.done()
+    ready = bot.is_ready()
+
+    error = False
+    try:
+        if done:
+            error = type(req.app.BotFuture.exception()) == discord.LoginFailure
+    except asyncio.InvalidStateError:
+        pass
+
+    status_code = 1 if not done and ready else 0
+    status_code = 2 if error else status_code
+    return response(Status.OK, data={"status": status_code})
+
+
 @api.route("/on")
+@authorized()
 async def bot_on(req):
     config = get_config()
     bot: commands.Bot = req.app.bot
@@ -74,7 +100,9 @@ async def bot_on(req):
 
 
 @api.route("/off")
+@authorized()
 async def bot_off(req):
     future: asyncio.Future = req.app.BotFuture
+
     future.cancel()
     return response(Status.OK, "bot off")
