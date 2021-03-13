@@ -5,10 +5,23 @@ import Test from '../views/Test.vue'
 import Bot from '../views/Bot.vue'
 import User from '../views/User.vue'
 import Setting from '../views/Setting.vue'
+import Login from '../views/Login'
 
 Vue.use(VueRouter)
 
+const requireLogin = (to, _, next) => {
+  if (localStorage.getItem('password') === '1234') next()
+  else {
+    next({ name: 'Login', params: { path: to.path } })
+  }
+}
+
 const routes = [
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
   {
     path: '*',
     name: '404 Not Found',
@@ -22,17 +35,20 @@ const routes = [
   {
     path: '/',
     name: 'Bot',
-    component: Bot
+    component: Bot,
+    beforeEnter: requireLogin
   },
   {
     path: '/user',
     name: 'User',
-    component: User
+    component: User,
+    beforeEnter: requireLogin
   },
   {
     path: '/setting',
     name: 'Setting',
-    component: Setting
+    component: Setting,
+    beforeEnter: requireLogin
   }
 ]
 
