@@ -18,7 +18,7 @@
         <div class="box-column">
           <div class="box-info">
             <span class="info-name">상태</span>
-            <span>{{ convertStatusNum(this.$store.state.status) }}</span>
+            <span>{{ this.$store.state.status ? '온라인' : '오프라인' }}</span>
           </div>
           <div class="box-info">
             <span class="info-name">업타임</span>
@@ -79,18 +79,6 @@ export default {
   mounted () {
     this.$store.commit('setTitle', '봇')
     this.$store.commit('setActivate', this.$route.name)
-  },
-  methods: {
-    convertStatusNum (num) {
-      switch (num) {
-        case 0:
-          return '오프라인'
-        case 1:
-          return '온라인'
-        default:
-          return '오류'
-      }
-    }
   }
 }
 </script>

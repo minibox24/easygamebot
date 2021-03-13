@@ -12,7 +12,7 @@ export default new Vuex.Store({
       user: require('@/assets/user.svg'),
       settings: require('@/assets/settings.svg')
     },
-    status: 0,
+    status: false,
     servers: '-',
     users: [],
     discord: {
@@ -81,16 +81,7 @@ export default new Vuex.Store({
       }
     },
     setStatus (state, status) {
-      switch (status) {
-        case 'offline':
-          state.status = 0
-          break
-        case 'online':
-          state.status = 1
-          break
-        default:
-          state.status = 2
-      }
+      state.status = status
     },
     setServerCount (state, count) {
       state.servers = count

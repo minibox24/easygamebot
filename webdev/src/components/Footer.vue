@@ -55,8 +55,6 @@ export default {
 .color-online:hover { background: green; }
 .color-offline { background: gray; }
 .color-offline:hover { background: gray; }
-.color-error { background: red; }
-.color-error:hover { background: red; }
 
 .footer-item-right {
   margin-left: auto;
@@ -68,10 +66,9 @@ export default {
     <div v-b-tooltip.v-light.hover.top="'봇 상태'"
       class="footer-item footer-status" :class="{
       'color-online': this.$store.state.status,
-      'color-offline': !this.$store.state.status,
-      'color-error': this.$store.state.status === 2
+      'color-offline': !this.$store.state.status
     }">
-      <span>{{ this.$store.state.status ? this.$store.state.status === 2 ? '오류' : '온라인' : '오프라인' }}</span>
+      <span>{{ this.$store.state.status ? '온라인' : '오프라인' }}</span>
     </div>
     <div class="footer-item" v-b-tooltip.v-light.hover.top="'서버 수'">
       <img src="@/assets/server.svg" alt="user">

@@ -73,21 +73,12 @@ async def status(req):
         future: asyncio.Future = req.app.BotFuture
         bot: commands.Bot = req.app.bot
     except AttributeError:
-        return response(Status.OK, data={"status": 0})
+        return response(Status.OK, data={"status": False})
 
     done = future.done()
     ready = bot.is_ready()
 
-    error = False
-    try:
-        if done:
-            error = isinstance(req.app.BotFuture.exception(), discord.LoginFailure)
-    except asyncio.InvalidStateError:
-        pass
-
-    status_code = 1 if not done and ready else 0
-    status_code = 2 if error else status_code
-    return response(Status.OK, data={"status": status_code})
+    return response(Status.OK, data={"status": not done and ready})
 
 
 @api.route("/on")
