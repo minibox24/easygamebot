@@ -17,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="userbox" v-for="(user, index) in users" :key="index">
+        <tr class="userbox" v-for="(user, index) in $store.state.users" :key="index">
           <td>
             <div class="user">
               <b-avatar class="mr-1" :src="user.avatar" size="32px"/>
@@ -73,32 +73,6 @@
 export default {
   data () {
     return {
-      users: [
-        { avatar: '', name: 'Minibsdfgsdfgsdfgdox', tag: '3332', money: '123', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: '붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸', tag: '3332', money: '12344', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mindfgibox', tag: '3332', money: '124443', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mini', tag: '3332', money: '1423', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mdfginibox', tag: '3332', money: '1243', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mbox', tag: '3332', money: '14444423', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Minibsdfgsdfgsdfgdox', tag: '3332', money: '123', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: '붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸', tag: '3332', money: '12344', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mindfgibox', tag: '3332', money: '124443', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mini', tag: '3332', money: '1423', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mdfginibox', tag: '3332', money: '1243', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mbox', tag: '3332', money: '14444423', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Minibsdfgsdfgsdfgdox', tag: '3332', money: '123', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: '붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸', tag: '3332', money: '12344', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mindfgibox', tag: '3332', money: '124443', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mini', tag: '3332', money: '1423', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mdfginibox', tag: '3332', money: '1243', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mbox', tag: '3332', money: '14444423', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Minibsdfgsdfgsdfgdox', tag: '3332', money: '123', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: '붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸붸', tag: '3332', money: '12344', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mindfgibox', tag: '3332', money: '124443', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mini', tag: '3332', money: '1423', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mdfginibox', tag: '3332', money: '1243', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' },
-        { avatar: '', name: 'Mbox', tag: '3332', money: '14444423', joinAt: '2020. 03. 05', checkAt: '2020. 03. 07' }
-      ],
       unit: this.$store.state.config.game.unit,
       select: {}
     }
