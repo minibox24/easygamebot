@@ -50,15 +50,15 @@
         <div style="display: flex" class="box flex-row">
           <div class="box-info">
             <span class="info-name">CPU</span>
-            <span>{{ cpu }}</span>
+            <span>{{ $store.state.com.cpu }}</span>
           </div>
           <div class="box-info">
             <span class="info-name">RAM</span>
-            <span>{{ ram }}</span>
+            <span>{{ $store.state.com.ram }}</span>
           </div>
           <div class="box-info">
             <span class="info-name">PID</span>
-            <span>{{ pid }}</span>
+            <span>{{ $store.state.com.pid }}</span>
           </div>
         </div>
       </div>
@@ -70,9 +70,6 @@
 export default {
   data () {
     return {
-      cpu: '100%',
-      ram: '8GB / 8GB',
-      pid: '12345',
       showtoken: false
     }
   },

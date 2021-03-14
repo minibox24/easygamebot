@@ -20,6 +20,11 @@ export default new Vuex.Store({
       name: 'Bot',
       tag: '0000'
     },
+    com: {
+      cpu: '-',
+      ram: '-',
+      pid: '-'
+    },
     config: {
       game: {
         name: '',
