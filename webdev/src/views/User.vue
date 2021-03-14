@@ -1,6 +1,12 @@
 <template>
   <div id="user">
-    <table id="user-table">
+    <div v-if="$store.state.users.length === 0" class="nothing">
+      <div>
+        <img src="https://discord.com/assets/263a7f4eeb6f69e46d969fa479188592.svg">
+        <span>아무도 없네요.</span>
+      </div>
+    </div>
+    <table v-else id="user-table">
       <thead>
         <tr>
           <th>유저</th>
@@ -130,6 +136,12 @@ export default {
 #user {
   display: flex;
   justify-content: center;
+  height: 100%;
+}
+
+.nothing {
+  display: flex;
+  align-items: center;
 }
 
 #user-table {
