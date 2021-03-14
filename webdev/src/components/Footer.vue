@@ -29,6 +29,9 @@ export default {
 }
 
 .footer-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: auto;
   margin-left: .5rem;
   padding-left: .5rem;
