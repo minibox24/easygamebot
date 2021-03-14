@@ -245,7 +245,6 @@ export default {
   padding: 1rem;
   justify-content: center;
   margin: 1rem;
-  box-shadow: 2px 2px 2px 2px black;
 }
 
 .item {

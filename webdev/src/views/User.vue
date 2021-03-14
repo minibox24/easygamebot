@@ -12,10 +12,12 @@
       </thead>
       <tbody>
         <tr class="userbox" v-for="(user, index) in users" :key="index">
-          <td class="user">
-            <b-avatar class="mr-1" :src="user.avatar" size="16px"/>
-            <span class="discord-name">{{ user.name }}</span>
-            <span class="discord-tag">#{{ user.tag }}</span>
+          <td>
+            <div class="user">
+              <b-avatar class="mr-1" :src="user.avatar" size="32px"/>
+              <span class="discord-name">{{ user.name }}</span>
+              <span class="discord-tag">#{{ user.tag }}</span>
+            </div>
           </td>
           <td>{{ user.money }}{{ unit }}</td>
           <td>{{ user.joinAt }}</td>
@@ -137,8 +139,8 @@ export default {
 
 .userbox {
   background: #1D2936;
-  box-shadow: 2px 2px 2px 2px black;
   border-radius: 15px;
+  height: 3rem;
 }
 
 tr td:first-child {
@@ -184,8 +186,8 @@ tr td:last-child {
 }
 
 .user {
-  /*display: flex;*/
-  justify-content: center;
+  display: flex;
+  align-items: center;
 }
 
 .iconbtn {
