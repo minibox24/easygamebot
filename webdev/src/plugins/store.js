@@ -27,23 +27,42 @@ export default new Vuex.Store({
     },
     config: {
       game: {
-        name: '',
-        unit: '',
-        register_money: 0,
-        check_money: 0,
-        check_time: 0,
-        work_money: '',
+        name: '게임봇',
+        unit: '원',
+        register_money: 50000,
+        check_money: 15000,
+        check_time: 86400,
+        work_money: '500-2500',
         stock: {
-          stocks: [],
-          stock_default_price: 0,
-          stock_change_time: 0
+          stocks: [
+            '미니전자',
+            '미니택배',
+            '미니건설',
+            '미니증권',
+            '미니식품',
+            '미니생명',
+            '미니화재',
+            '미니카드',
+            '미니물산',
+            '미니항공'
+          ],
+          stock_default_price: 5000,
+          stock_change_time: 30
         },
-        items: []
+        items: [
+          { name: '니트로 클래식', description: '일의 쿨타임이 3초가 됩니다.', price: 250000, effect: 'work-speed@3' },
+          { name: '니트로', description: '일의 쿨타임이 1초가 됩니다. (니트로 클래식 효과 무시)', price: 500000, effect: 'work-speed@1' },
+          { name: '커피', description: '일을 해서 버는 돈이 2배가 됩니다.', price: 500000, effect: 'work-power@2' },
+          { name: '몬스터', description: '일을 해서 버는 돈이 5배가 됩니다. (커피 효과 무시)', price: 500000, effect: 'work-power@5' },
+          { name: '텔레파시', description: '일반 도박의 확률이 10% 증가합니다.', price: 1000000, effect: 'gamble@10' },
+          { name: '밑장빼기', description: '(1회용) 일반 도박이 무조건 성공합니다.', price: 5000000, effect: '!gamble@100' },
+          { name: '롤렉스', description: '사치용 아이템', price: 100000000 }
+        ]
       },
       bot: {
         token: '',
-        prefix: '',
-        status: '',
+        prefix: '!',
+        status: '!도움',
         reply_mention: false
       },
       admin_tool: {
