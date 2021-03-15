@@ -1,5 +1,5 @@
 from sanic import Blueprint
-from sanic.response import json as resjson
+from sanic.response import json as response_json
 import discord
 from discord.ext import commands
 
@@ -7,71 +7,35 @@ from src.utils import get_config
 from src.utils.classes import Status
 
 import asyncio
-from functools import wraps
-from base64 import b64decode
-import binascii
+import json
 
 
 api = Blueprint("api", url_prefix="/api")
-username = "admin"
 
 
-def response(
-    status: Status, message: str = "", data=None, status_code: int = 200
-) -> resjson:
+def response(status: Status, message: str = "", data=None, typ="response") -> str:
     if data is None:
         data = {}
-    return resjson(
-        {"status": status.value, "message": message, "data": data}, status=status_code
+    return json.dumps(
+        {"typ": typ, "status": status.value, "message": message, "data": data},
+        ensure_ascii=False,
     )
 
 
-def authorized():
-    def decorator(f):
-        @wraps(f)
-        async def decorated_function(request, *args, **kwargs):
-            is_auth = False
-
-            try:
-                typ, cre = request.headers.get("Authorization").split()
-
-                config = get_config()
-                if typ == "Basic":
-                    if (
-                        b64decode(cre.encode()).decode()
-                        == f'{username}:{config["admin_tool"]["password"]}'
-                    ):
-                        is_auth = True
-            except binascii.Error:
-                pass
-            except ValueError:
-                pass
-            except AttributeError:
-                pass
-
-            if is_auth:
-                res = await f(request, *args, **kwargs)
-                return res
-            return response(Status.AUTH, "need authorization", status_code=401)
-
-        return decorated_function
-
-    return decorator
+def check_auth(pw):
+    config = get_config()
+    return pw == config["admin_tool"]["password"]
 
 
 @api.route("/")
-async def main(req):
-    bot: commands.Bot = req.app.bot
-
-    print(bot.is_ready(), req.app.bf.done())
-    return response(Status.OK, "Hello, World!")
+async def api_main(req):
+    return response_json({"message": "Hello, World!"})
 
 
-@api.route("/status")
-async def status(req):
+async def api_status(app):
     try:
-        future: asyncio.Future = req.app.BotFuture
-        bot: commands.Bot = req.app.bot
+        future: asyncio.Future = app.BotFuture
+        bot: commands.Bot = app.bot
     except AttributeError:
         return response(Status.OK, data={"status": False})
 
@@ -81,31 +45,73 @@ async def status(req):
     return response(Status.OK, data={"status": not done and ready})
 
 
-@api.route("/on")
-@authorized()
-async def bot_on(req):
+async def api_bot_start(app):
     config = get_config()
-    bot: commands.Bot = req.app.bot
-    req.app.BotFuture = asyncio.ensure_future(bot.start(config["bot"]["token"]))
+    bot: commands.Bot = app.bot
+    app.BotFuture = asyncio.ensure_future(bot.start(config["bot"]["token"]))
     return response(Status.OK, "bot on")
 
 
-@api.route("/off")
-@authorized()
-async def bot_off(req):
-    future: asyncio.Future = req.app.BotFuture
+async def api_bot_stop(app):
+    future: asyncio.Future = app.BotFuture
 
     future.cancel()
     return response(Status.OK, "bot off")
 
 
-@api.route("/restart")
-@authorized()
-async def bot_restart(req):
-    future: asyncio.Future = req.app.BotFuture
-    bot: commands.Bot = req.app.bot
+async def api_bot_restart(app):
+    future: asyncio.Future = app.BotFuture
+    bot: commands.Bot = app.bot
     config = get_config()
 
     future.cancel()
-    req.app.BotFuture = asyncio.ensure_future(bot.start(config["bot"]["token"]))
+    app.BotFuture = asyncio.ensure_future(bot.start(config["bot"]["token"]))
     return response(Status.OK, "bot off")
+
+
+async def api_auth(r):
+    pass
+
+
+@api.websocket("/ws")
+async def socket(request, ws):
+    routes = {
+        "auth": api_auth,
+        "status": api_status,
+        "start": api_bot_start,
+        "stop": api_bot_stop,
+        "restart": api_bot_restart,
+    }
+    need_auth = ["start", "stop", "restart"]
+
+    while True:
+        # request data: { route: '', data: {}, password(Optional): '' }
+        req = await ws.resv()
+        req = json.loads(req)
+
+        route = req.get("route")
+        data = req.get("data")
+        password = req.get("password")
+
+        if not route or not isinstance(data, dict):
+            await ws.send(
+                response(Status.ERROR, "데이터 형식이 올바르지 않습니다.", {"code": "INVALID_DATA"})
+            )
+            continue
+
+        if not routes.get(req["route"]):
+            await ws.send(
+                response(Status.ERROR, "존재하지 않는 라우트입니다.", {"code": "NOT_FOUND_ROUTE"})
+            )
+            continue
+
+        auth = check_auth(password)
+
+        if route in need_auth and not auth:
+            await ws.send(
+                response(Status.ERROR, "인증이 필요한 라우트입니다.", {"code": "NEED_AUTH"})
+            )
+            continue
+
+        func = routes[route]
+        await ws.send(func(request.app))
