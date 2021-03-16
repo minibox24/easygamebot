@@ -1,9 +1,10 @@
-from sanic import Blueprint
+from sanic import Blueprint, websocket
 from sanic.response import json as response_json
 import discord
 from discord.ext import commands
 
-from src.utils import get_config
+from typing import Optional
+from src.utils import get_config, get_com_info
 from src.utils.classes import Status
 
 import asyncio
@@ -11,9 +12,15 @@ import json
 
 
 api = Blueprint("api", url_prefix="/api")
+client: Optional[websocket.WebSocketConnection] = None
 
 
-def response(status: Status, message: str = "", data=None, typ="response") -> str:
+def response(
+    status: Status = Status.OK,
+    message: str = "",
+    data: Optional[dict] = None,
+    typ="response",
+) -> str:
     if data is None:
         data = {}
     return json.dumps(
@@ -32,44 +39,75 @@ async def api_main(req):
     return response_json({"message": "Hello, World!"})
 
 
-async def api_status(app):
+async def api_status(app, _):
+    bot: commands.Bot = app.bot
+
     try:
-        future: asyncio.Future = app.BotFuture
-        bot: commands.Bot = app.bot
+        future: asyncio.Future = app.bot_future
     except AttributeError:
-        return response(Status.OK, data={"status": False})
+        return response(data={"status": False})
 
     done = future.done()
     ready = bot.is_ready()
 
-    return response(Status.OK, data={"status": not done and ready})
+    return response(data={"status": not done and ready})
 
 
-async def api_bot_start(app):
+async def api_bot_start(app, _):
     config = get_config()
     bot: commands.Bot = app.bot
-    app.BotFuture = asyncio.ensure_future(bot.start(config["bot"]["token"]))
-    return response(Status.OK, "bot on")
+    app.bot_future = asyncio.ensure_future(bot.start(config["bot"]["token"]))
+    return response(message="bot start")
 
 
-async def api_bot_stop(app):
-    future: asyncio.Future = app.BotFuture
+async def api_bot_stop(app, _):
+    future: asyncio.Future = app.bot_future
 
     future.cancel()
-    return response(Status.OK, "bot off")
+    return response(message="bot stop")
 
 
-async def api_bot_restart(app):
-    future: asyncio.Future = app.BotFuture
+async def api_bot_restart(app, _):
+    future: asyncio.Future = app.bot_future
     bot: commands.Bot = app.bot
     config = get_config()
 
     future.cancel()
-    app.BotFuture = asyncio.ensure_future(bot.start(config["bot"]["token"]))
-    return response(Status.OK, "bot off")
+    app.bot_future = asyncio.ensure_future(bot.start(config["bot"]["token"]))
+    return response(message="bot restart")
 
 
-async def api_auth(r):
+async def api_auth(_, data):
+    return response(data={"auth": check_auth(data.get("password"))})
+
+
+async def api_setup(app, _):
+    bot: commands.Bot = app.bot
+    config = get_config()
+
+    discord_info = (
+        {
+            "avatar": str(bot.user.avatar_url_as("png")),
+            "name": bot.user.name,
+            "tag": bot.user.discriminator,
+        }
+        if bot.user
+        else {"avatar": "", "name": "Bot", "tag": "0000"}
+    )
+
+    return response(
+        data={
+            "status": False,
+            "servers": "-",
+            "users": [],
+            "discord": discord_info,
+            "com": get_com_info(),
+            "config": config,
+        }
+    )
+
+
+async def api_setting(app, data):
     pass
 
 
@@ -81,8 +119,13 @@ async def socket(request, ws):
         "start": api_bot_start,
         "stop": api_bot_stop,
         "restart": api_bot_restart,
+        "setup": api_setup,
+        "setting": api_setting,
     }
-    need_auth = ["start", "stop", "restart"]
+    need_auth = ["start", "stop", "restart", "setup", "setting"]
+
+    global client
+    client = ws
 
     while True:
         # request data: { route: '', data: {}, password(Optional): '' }
@@ -114,4 +157,4 @@ async def socket(request, ws):
             continue
 
         func = routes[route]
-        await ws.send(func(request.app))
+        await ws.send(func(request.app, data))
