@@ -8,6 +8,8 @@ from datetime import datetime
 from math import log, sqrt
 import matplotlib.pyplot as plt
 from io import BytesIO
+from os import getpid
+from psutil import cpu_percent, virtual_memory
 
 from src.utils import colors
 from src.utils.embeds import make_text_embed
@@ -111,3 +113,12 @@ async def emoji_check(emoji: str, ctx: commands.Context) -> bool:
         return reaction.emoji == emoji
     except asyncio.TimeoutError:
         return False
+
+
+def get_com_info() -> dict:
+    tot, ava = virtual_memory()[:2]
+    return {
+        "cpu": f"{round(cpu_percent())}%",
+        "ram": f"{round(ava / 1e9, 1)}GB / {round(tot / 1e9, 1)}GB",
+        "pid": getpid(),
+    }
