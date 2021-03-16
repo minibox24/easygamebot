@@ -2,3 +2,4 @@ discord
 matplotlib
 sanic
 jishaku
+psutil
